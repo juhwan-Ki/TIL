@@ -8,5 +8,5 @@
 ### 목차
 
 - JPA
-  - [JPA란?](#/JPA/JPA란?.md)
+  - [JPA란?](#https://github.com/juhwan-Ki/TIL/blob/main/JPA/JPA%EB%9E%80%3F.md)
   - [영속성 관리](#/JPA/영속성관리.md)
