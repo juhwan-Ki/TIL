@@ -9,4 +9,4 @@
 
 - JPA
   - [JPA란?](https://github.com/juhwan-Ki/TIL/blob/main/JPA/JPA%EB%9E%80%3F.md)
-  - [영속성 관리](#/JPA/영속성관리.md)
+  - [영속성 관리](https://github.com/juhwan-Ki/TIL/blob/main/JPA/%EC%98%81%EC%86%8D%EC%84%B1%EA%B4%80%EB%A6%AC.md)
