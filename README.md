@@ -14,3 +14,4 @@
   - [엔티티매핑](https://github.com/juhwan-Ki/TIL/blob/main/JPA/%EC%97%94%ED%8B%B0%ED%8B%B0%EB%A7%A4%ED%95%91.md)
   - [연관관계](https://github.com/juhwan-Ki/TIL/blob/main/JPA/%EC%97%B0%EA%B4%80%EA%B4%80%EA%B3%84.md)
   - [다양햔 연관관계](https://github.com/juhwan-Ki/TIL/blob/main/JPA/%EB%8B%A4%EC%96%91%ED%95%9C%20%EC%97%B0%EA%B4%80%EA%B4%80%EA%B3%84.md)
+  - [고급매핑](https://github.com/juhwan-Ki/TIL/blob/main/JPA/%EA%B3%A0%EA%B8%89%EB%A7%A4%ED%95%91.md)
