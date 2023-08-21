@@ -16,5 +16,5 @@
   - [다양햔 연관관계](https://github.com/juhwan-Ki/TIL/blob/main/JPA/%EB%8B%A4%EC%96%91%ED%95%9C%20%EC%97%B0%EA%B4%80%EA%B4%80%EA%B3%84.md)
   - [고급매핑](https://github.com/juhwan-Ki/TIL/blob/main/JPA/%EA%B3%A0%EA%B8%89%EB%A7%A4%ED%95%91.md)
   - [프록시](https://github.com/juhwan-Ki/TIL/blob/main/JPA/%ED%94%84%EB%A1%9D%EC%8B%9C.md)
-  - [즉시로딩,지연로딩]()
-  - [영속성전이]()
+  - [즉시로딩,지연로딩](https://github.com/juhwan-Ki/TIL/blob/main/JPA/%EC%A6%89%EC%8B%9C%EB%A1%9C%EB%94%A9%2C%EC%A7%80%EC%97%B0%EB%A1%9C%EB%94%A9.md)
+  - [영속성전이](https://github.com/juhwan-Ki/TIL/blob/main/JPA/%EC%98%81%EC%86%8D%EC%84%B1%EC%A0%84%EC%9D%B4.md)
