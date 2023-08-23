@@ -20,3 +20,4 @@
   - [영속성전이](https://github.com/juhwan-Ki/TIL/blob/main/JPA/%EC%98%81%EC%86%8D%EC%84%B1%EC%A0%84%EC%9D%B4.md)
   - [값타입(1)](https://github.com/juhwan-Ki/TIL/blob/main/JPA/%EA%B0%92%ED%83%80%EC%9E%85(1).md)
    - [값타입(2)](https://github.com/juhwan-Ki/TIL/blob/main/JPA/%EA%B0%92%ED%83%80%EC%9E%85(2).md)
+    - [값타입(3)](https://github.com/juhwan-Ki/TIL/blob/main/JPA/%EA%B0%92%ED%83%80%EC%9E%85(3).md)
