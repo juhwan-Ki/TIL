@@ -21,5 +21,5 @@
   - [값타입(1)](https://github.com/juhwan-Ki/TIL/blob/main/JPA/%EA%B0%92%ED%83%80%EC%9E%85(1).md)
   - [값타입(2)](https://github.com/juhwan-Ki/TIL/blob/main/JPA/%EA%B0%92%ED%83%80%EC%9E%85(2).md)
   - [값타입(3)](https://github.com/juhwan-Ki/TIL/blob/main/JPA/%EA%B0%92%ED%83%80%EC%9E%85(3).md)
-  - [객체지향쿼리언어(1)](https://github.com/juhwan-Ki/TIL/blob/main/JPA/%EA%B0%92%ED%83%80%EC%9E%85(3).md)
+  - [객체지향쿼리언어(1)](https://github.com/juhwan-Ki/TIL/blob/main/JPA/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EC%BF%BC%EB%A6%AC%EC%96%B8%EC%96%B4(1).md)
   
