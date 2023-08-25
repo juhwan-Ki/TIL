@@ -19,5 +19,7 @@
   - [즉시로딩,지연로딩](https://github.com/juhwan-Ki/TIL/blob/main/JPA/%EC%A6%89%EC%8B%9C%EB%A1%9C%EB%94%A9%2C%EC%A7%80%EC%97%B0%EB%A1%9C%EB%94%A9.md)
   - [영속성전이](https://github.com/juhwan-Ki/TIL/blob/main/JPA/%EC%98%81%EC%86%8D%EC%84%B1%EC%A0%84%EC%9D%B4.md)
   - [값타입(1)](https://github.com/juhwan-Ki/TIL/blob/main/JPA/%EA%B0%92%ED%83%80%EC%9E%85(1).md)
-   - [값타입(2)](https://github.com/juhwan-Ki/TIL/blob/main/JPA/%EA%B0%92%ED%83%80%EC%9E%85(2).md)
-    - [값타입(3)](https://github.com/juhwan-Ki/TIL/blob/main/JPA/%EA%B0%92%ED%83%80%EC%9E%85(3).md)
+  - [값타입(2)](https://github.com/juhwan-Ki/TIL/blob/main/JPA/%EA%B0%92%ED%83%80%EC%9E%85(2).md)
+  - [값타입(3)](https://github.com/juhwan-Ki/TIL/blob/main/JPA/%EA%B0%92%ED%83%80%EC%9E%85(3).md)
+  - [객체지향쿼리언어(1)](https://github.com/juhwan-Ki/TIL/blob/main/JPA/%EA%B0%92%ED%83%80%EC%9E%85(3).md)
+  
