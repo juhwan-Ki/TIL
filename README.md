@@ -25,4 +25,4 @@
   - [객체지향쿼리언어(2)](https://github.com/juhwan-Ki/TIL/blob/main/JPA/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EC%BF%BC%EB%A6%AC%EC%96%B8%EC%96%B4(2).md)
 
 - Spring
-  - [객체 지향 설계와 스프링]()
+  - [객체 지향 설계와 스프링](https://github.com/juhwan-Ki/TIL/blob/main/Spring/%EA%B0%9D%EC%B2%B4%20%EC%A7%80%ED%96%A5%20%EC%84%A4%EA%B3%84%EC%99%80%20%EC%8A%A4%ED%94%84%EB%A7%81.md)
