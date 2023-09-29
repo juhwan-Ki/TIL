@@ -43,3 +43,4 @@
   - [HTTP 메소드](https://github.com/juhwan-Ki/TIL/blob/main/HTTP/HTTP%20%EB%A9%94%EC%86%8C%EB%93%9C.md)
    - [HTTP 메소드 활용](https://github.com/juhwan-Ki/TIL/blob/main/HTTP/HTTP%20%EB%A9%94%EC%86%8C%EB%93%9C%20%ED%99%9C%EC%9A%A9.md)
   - [HTTP 상태 코드](https://github.com/juhwan-Ki/TIL/blob/main/HTTP/HTTP%20%EC%83%81%ED%83%9C%20%EC%BD%94%EB%93%9C.md)
+  - [HTTP 일반 헤더(1)](https://github.com/juhwan-Ki/TIL/blob/main/HTTP/HTTP%20%EC%9D%BC%EB%B0%98%20%ED%97%A4%EB%8D%94(1).md)
