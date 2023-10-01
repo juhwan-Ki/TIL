@@ -45,3 +45,4 @@
   - [HTTP 상태 코드](https://github.com/juhwan-Ki/TIL/blob/main/HTTP/HTTP%20%EC%83%81%ED%83%9C%20%EC%BD%94%EB%93%9C.md)
   - [HTTP 일반 헤더(1)](https://github.com/juhwan-Ki/TIL/blob/main/HTTP/HTTP%20%EC%9D%BC%EB%B0%98%20%ED%97%A4%EB%8D%94(1).md)
    - [HTTP 일반 헤더(2)](https://github.com/juhwan-Ki/TIL/blob/main/HTTP/HTTP%20%EC%9D%BC%EB%B0%98%20%ED%97%A4%EB%8D%94(2).md)
+    - [HTTP 헤더](https://github.com/juhwan-Ki/TIL/blob/main/HTTP/HTTP%20%EC%9D%BC%EB%B0%98%20%ED%97%A4%EB%8D%94(2).md)
