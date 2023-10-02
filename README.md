@@ -46,3 +46,6 @@
   - [HTTP 일반 헤더(1)](https://github.com/juhwan-Ki/TIL/blob/main/HTTP/HTTP%20%EC%9D%BC%EB%B0%98%20%ED%97%A4%EB%8D%94(1).md)
    - [HTTP 일반 헤더(2)](https://github.com/juhwan-Ki/TIL/blob/main/HTTP/HTTP%20%EC%9D%BC%EB%B0%98%20%ED%97%A4%EB%8D%94(2).md)
     - [HTTP 헤더](https://github.com/juhwan-Ki/TIL/blob/main/HTTP/HTTP%20%ED%97%A4%EB%8D%94.md)
+
+- CS
+  - [OSI 7계층, TCP-IP 4계층]()
