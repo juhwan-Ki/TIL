@@ -49,3 +49,4 @@
 
 - CS
   - [OSI 7계층, TCP-IP 4계층](https://github.com/juhwan-Ki/TIL/blob/main/CS/OSI%207%EA%B3%84%EC%B8%B5%2C%20TCP-IP%204%EA%B3%84%EC%B8%B5.md)
+  - [3-way handshake & 4-way handshake](https://github.com/juhwan-Ki/TIL/blob/main/CS/3-way%20handshake%20%26%204-way%20handshake.md)
