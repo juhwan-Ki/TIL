@@ -48,5 +48,6 @@
     - [HTTP 헤더](https://github.com/juhwan-Ki/TIL/blob/main/HTTP/HTTP%20%ED%97%A4%EB%8D%94.md)
 
 - CS
-  - [OSI 7계층, TCP-IP 4계층](https://github.com/juhwan-Ki/TIL/blob/main/CS/OSI%207%EA%B3%84%EC%B8%B5%2C%20TCP-IP%204%EA%B3%84%EC%B8%B5.md)
+  - [OSI 7계층, TCP/IP 4계층](https://github.com/juhwan-Ki/TIL/blob/main/CS/OSI%207%EA%B3%84%EC%B8%B5%2C%20TCP-IP%204%EA%B3%84%EC%B8%B5.md)
   - [3-way handshake & 4-way handshake](https://github.com/juhwan-Ki/TIL/blob/main/CS/3-way%20handshake%20%26%204-way%20handshake.md)
+  - [TCP/IP 흐름제어, 혼잡제어]()
