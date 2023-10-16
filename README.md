@@ -50,7 +50,7 @@
 
 - CS
   - [OSI 7계층, TCP/IP 4계층](https://github.com/juhwan-Ki/TIL/blob/main/CS/OSI%207%EA%B3%84%EC%B8%B5%2C%20TCP-IP%204%EA%B3%84%EC%B8%B5.md)
-  - [TCP & UDP](https://github.com/juhwan-Ki/TIL/blob/main/CS/OSI%207%EA%B3%84%EC%B8%B5%2C%20TCP-IP%204%EA%B3%84%EC%B8%B5.md)
+  - [TCP & UDP](https://github.com/juhwan-Ki/TIL/blob/main/CS/TCP%20%26%20UDP.md)
   - [3-way handshake & 4-way handshake](https://github.com/juhwan-Ki/TIL/blob/main/CS/3-way%20handshake%20%26%204-way%20handshake.md)
   - [TCP/IP 흐름제어, 혼잡제어](https://github.com/juhwan-Ki/TIL/blob/main/CS/TCP-IP%20%ED%9D%90%EB%A6%84%EC%A0%9C%EC%96%B4%2C%20%ED%98%BC%EC%9E%A1%EC%A0%9C%EC%96%B4.md)
   - [대칭키 & 공개키](https://github.com/juhwan-Ki/TIL/blob/main/CS/%EB%8C%80%EC%B9%AD%ED%82%A4%20%26%20%EA%B3%B5%EA%B0%9C%ED%82%A4.md)
