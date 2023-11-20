@@ -57,3 +57,6 @@
   - [대칭키 & 공개키](https://github.com/juhwan-Ki/TIL/blob/main/CS/%EB%8C%80%EC%B9%AD%ED%82%A4%20%26%20%EA%B3%B5%EA%B0%9C%ED%82%A4.md)
   - [Blocking & NonBlocking](https://github.com/juhwan-Ki/TIL/blob/main/CS/Blocking%20%26%20NonBlocking.md)
   - [HTTP & HTTPS](https://github.com/juhwan-Ki/TIL/blob/main/CS/HTTP%20%26%20HTTPS.md)
+
+- 기타
+  - [데이터 검증]()
