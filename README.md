@@ -59,4 +59,5 @@
   - [HTTP & HTTPS](https://github.com/juhwan-Ki/TIL/blob/main/CS/HTTP%20%26%20HTTPS.md)
 
 - 기타
-  - [데이터 검증](https://github.com/juhwan-Ki/TIL/blob/main/%EA%B8%B0%ED%83%80/%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B2%80%EC%A6%9D(1).md)
+  - [데이터 검증](https://github.com/juhwan-Ki/TIL/blob/main/%EA%B8%B0%ED%83%80/%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B2%80%EC%A6%9D.md)
+  - [게시글 저장 구현 테스트]()
