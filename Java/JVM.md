@@ -1,6 +1,14 @@
 ## JVM(Java Virtual Machine)이란?
 - JVM은 OS에 종속받지 않고 CPU 가 Java를 인식, 실행할 수 있게 하는 가상 컴퓨터로 시스템 메모리를 관리하면서, 자바 기반 애플리케이션을 위해 이식 가능한 실행 환경을 제공
 
+
+### Java Compile과정
+1. 개발자가 java 코드를 작성
+2. build 진행
+3. java compiler를 통해 javac 명령어를 통해 바이트코드(.class) 코드가 생성
+4. Class Loader를 통해 JVM 메모리 내로 로드
+5. Execution Engine(실행엔진)을 통해 컴퓨터가 읽을 수 있는 기계어로 해석되어 실행
+
 ### JVM 동작방식
 <img width="807" alt="스크린샷 2023-12-11 오후 8 03 26" src="https://github.com/juhwan-Ki/TIL/assets/87765888/f032dff8-70dd-4ac5-bf57-374e6cf7ead0">
 
