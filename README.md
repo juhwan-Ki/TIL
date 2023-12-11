@@ -61,6 +61,10 @@
 - Docker
   - [Dokcer 기본 개념 및 명령어](https://github.com/juhwan-Ki/TIL/blob/main/Docker/Dokcer%20%EA%B8%B0%EB%B3%B8%20%EA%B0%9C%EB%85%90%20%EB%B0%8F%20%EB%AA%85%EB%A0%B9%EC%96%B4.md)
 
+- Java
+ - Java 특징 및 객체지향 4대 특성
+ - JVM
+
 - ETC
   - [데이터 검증](https://github.com/juhwan-Ki/TIL/blob/main/%EA%B8%B0%ED%83%80/%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B2%80%EC%A6%9D.md)
   - [게시글 저장 구현 테스트](https://github.com/juhwan-Ki/TIL/blob/main/%EA%B8%B0%ED%83%80/%EA%B2%8C%EC%8B%9C%EA%B8%80%20%EC%A0%80%EC%9E%A5%20%EA%B5%AC%ED%98%84%20%ED%85%8C%EC%8A%A4%ED%8A%B8.md)
