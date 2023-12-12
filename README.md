@@ -65,6 +65,7 @@
   - [Java 특징 및 객체지향 4대 특성](https://github.com/juhwan-Ki/TIL/blob/main/Java/Java%20%ED%8A%B9%EC%A7%95%20%EB%B0%8F%20%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%204%EB%8C%80%20%ED%8A%B9%EC%84%B1.md)
   - [JVM](https://github.com/juhwan-Ki/TIL/blob/main/Java/JVM.md)
   - [객체지향 설계 원칙](https://github.com/juhwan-Ki/TIL/blob/main/Java/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%20%EC%84%A4%EA%B3%84%EC%9B%90%EC%B9%99.md)
+  - [GC](https://github.com/juhwan-Ki/TIL/blob/main/Java/GC.md)
 
 - ETC
   - [데이터 검증](https://github.com/juhwan-Ki/TIL/blob/main/%EA%B8%B0%ED%83%80/%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B2%80%EC%A6%9D.md)
