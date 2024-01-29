@@ -33,6 +33,25 @@
 
 - NoSQL은 빅데이터의 등장으로 인해 RDB를 통해서 트래픽을 감당하기 어려워져 데이터의 일관성을 포기하되 비용을 고려하여 여러 대의 데이터에 분산하여 저장하는 목표로 등장하였다.
 
+- NoSQL 종류
+1. key - value DB
+    - 기본적인 패턴으로 Key-Value 가 하나의 쌍(Unique)으로 저장되는 구조로 단순한 구조이기 때문에 속도가 빠르며 분산 저장 시 용이하다.
+    - ex: Redis
+
+2. document DB
+    - Key-Value Database 와 마찬가지로 데이터 저장 시에는 Key-Value 타입을 사용하지만, 보통 XML/JSON과 같은 Document 형식의 데이터를 레코드에 저장한다.
+    - 트리형 구조로 레코드를 저장하거나 검색하는데 효과적이다.
+    - ex: MongoDB
+
+3. BigTable(=Wide-Column) Database
+    - 행마다 키와 해당 값을 저장할 때 각가 다른 값의 다른 수의 스키마를 가질 수 있다.
+    - 대량의 데이터의 압축, 분산처리, 집계 쿼리(Sum, Count, Avg 등) 및 쿼리 속도에 뛰어나다.
+    - ex: Hbase, Google BigTable
+
+4. Graph Database
+    - 데이터를 노드로(그림에선 원형 모양) 표현하며 노드 사이의 관계를 엣지(그림에선 화살표)로 표현한다.
+    - 일반적으로 RDBMS 보다 성능이 좋고 유연하며 유지보수에 용이하다.
+    - ex:  Neo4j, BlazeGraph
 
 - NoSQL의 장점
 1. 스키마가 없기 때문에 유연하며 자유로운 데이터 구조를 가질 수 있으며 새로운 필드의 추가가 자유롭다.
