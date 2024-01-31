@@ -69,7 +69,7 @@
 
   - DB
     - [RDB & NoSQL](https://github.com/juhwan-Ki/TIL/blob/main/CS/DB/RDB%20%26%20NoSQL.md)
-    - [Transaction이란]()
+    - [Transaction](https://github.com/juhwan-Ki/TIL/blob/main/CS/DB/Transaction.md)
 
 - Docker
   - [Dokcer 기본 개념 및 명령어](https://github.com/juhwan-Ki/TIL/blob/main/Docker/Dokcer%20%EA%B8%B0%EB%B3%B8%20%EA%B0%9C%EB%85%90%20%EB%B0%8F%20%EB%AA%85%EB%A0%B9%EC%96%B4.md)
