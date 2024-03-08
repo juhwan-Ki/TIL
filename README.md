@@ -88,6 +88,8 @@
   - [GC](https://github.com/juhwan-Ki/TIL/blob/main/Java/GC.md)
   - [오버라이딩 & 오버로딩](https://github.com/juhwan-Ki/TIL/blob/main/Java/%EC%98%A4%EB%B2%84%EB%A1%9C%EB%94%A9%26%EC%98%A4%EB%B2%84%EB%9D%BC%EC%9D%B4%EB%94%A9.md)
 
+- Web
+  - [Web Server & WAS](https://github.com/juhwan-Ki/TIL/blob/main/Web/Web%20Server%20%26%20WAS.md)
 - ETC
   - [데이터 검증](https://github.com/juhwan-Ki/TIL/blob/main/%EA%B8%B0%ED%83%80/%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B2%80%EC%A6%9D.md)
   - [게시글 저장 구현 테스트](https://github.com/juhwan-Ki/TIL/blob/main/%EA%B8%B0%ED%83%80/%EA%B2%8C%EC%8B%9C%EA%B8%80%20%EC%A0%80%EC%9E%A5%20%EA%B5%AC%ED%98%84%20%ED%85%8C%EC%8A%A4%ED%8A%B8.md)
