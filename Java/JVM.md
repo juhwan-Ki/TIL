@@ -4,7 +4,7 @@
 ### Java Compile과정
 1. 개발자가 java 코드를 작성
 2. build 진행
-3. java compiler를 통해 javac 명령어를 통해 바이트코드(.class) 코드가 생성
+3. java compiler를 통해 바이트코드(.class)가 생성
 4. Class Loader를 통해 JVM 메모리 내로 로드
 5. Execution Engine(실행엔진)을 통해 컴퓨터가 읽을 수 있는 기계어로 해석되어 실행
 
