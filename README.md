@@ -72,12 +72,12 @@
     - [RDBMS 종류와 특징 및 장단점](https://github.com/juhwan-Ki/TIL/blob/main/CS/DB/RDBMS%20%EC%A2%85%EB%A5%98%EC%99%80%20%ED%8A%B9%EC%A7%95%20%EB%B0%8F%20%EC%9E%A5%EB%8B%A8%EC%A0%90.md)
     - [Transaction](https://github.com/juhwan-Ki/TIL/blob/main/CS/DB/Transaction.md)
     - [Deadlock](https://github.com/juhwan-Ki/TIL/blob/main/CS/DB/Deadlock.md)
-   - [Index](https://github.com/juhwan-Ki/TIL/blob/main/CS/DB/Index.md)
+    - [Index](https://github.com/juhwan-Ki/TIL/blob/main/CS/DB/Index.md)
 
-  - Data Structure & Algorithm
-    - [Array & LinkedList](https://github.com/juhwan-Ki/TIL/blob/main/CS/Data%20Structure%20%26%20Algorithm/Array%20%26%20LinkedList.md)
-    - [Stack & Queue](https://github.com/juhwan-Ki/TIL/blob/main/CS/Data%20Structure%20%26%20Algorithm/Stack%20%26%20Queue.md)
-    - [Hash Table](https://github.com/juhwan-Ki/TIL/blob/main/CS/Data%20Structure%20%26%20Algorithm/Hash%20Table.md)
+- Data Structure & Algorithm
+   - [Array & LinkedList](https://github.com/juhwan-Ki/TIL/blob/main/CS/Data%20Structure%20%26%20Algorithm/Array%20%26%20LinkedList.md)
+   - [Stack & Queue](https://github.com/juhwan-Ki/TIL/blob/main/CS/Data%20Structure%20%26%20Algorithm/Stack%20%26%20Queue.md)
+   - [Hash Table](https://github.com/juhwan-Ki/TIL/blob/main/CS/Data%20Structure%20%26%20Algorithm/Hash%20Table.md)
 
 - Docker
   - [Dokcer 기본 개념 및 명령어](https://github.com/juhwan-Ki/TIL/blob/main/Docker/Dokcer%20%EA%B8%B0%EB%B3%B8%20%EA%B0%9C%EB%85%90%20%EB%B0%8F%20%EB%AA%85%EB%A0%B9%EC%96%B4.md)
@@ -95,5 +95,5 @@
 - ETC
   - [데이터 검증](https://github.com/juhwan-Ki/TIL/blob/main/%EA%B8%B0%ED%83%80/%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B2%80%EC%A6%9D.md)
   - [게시글 저장 구현 테스트](https://github.com/juhwan-Ki/TIL/blob/main/%EA%B8%B0%ED%83%80/%EA%B2%8C%EC%8B%9C%EA%B8%80%20%EC%A0%80%EC%9E%A5%20%EA%B5%AC%ED%98%84%20%ED%85%8C%EC%8A%A4%ED%8A%B8.md)
-  - 모던 자바 인 액션
+  - Modern Java In Action
     - [Chapter 1 - 자바 8, 9, 19, 11 무슨 일이 일어나고 있는가?](https://github.com/juhwan-Ki/TIL/blob/main/ETC/modern-java-in-action/Chapter%201%20%20-%20%EC%9E%90%EB%B0%94%208%2C%209%2C%2010%2C%2011%20%EB%AC%B4%EC%8A%A8%20%EC%9D%BC%EC%9D%B4%20%EC%9D%BC%EC%96%B4%EB%82%98%EA%B3%A0%20%EC%9E%88%EB%8A%94%EA%B0%80.md)
