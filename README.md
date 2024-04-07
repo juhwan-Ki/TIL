@@ -95,5 +95,5 @@
 - ETC
   - [데이터 검증](https://github.com/juhwan-Ki/TIL/blob/main/%EA%B8%B0%ED%83%80/%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B2%80%EC%A6%9D.md)
   - [게시글 저장 구현 테스트](https://github.com/juhwan-Ki/TIL/blob/main/%EA%B8%B0%ED%83%80/%EA%B2%8C%EC%8B%9C%EA%B8%80%20%EC%A0%80%EC%9E%A5%20%EA%B5%AC%ED%98%84%20%ED%85%8C%EC%8A%A4%ED%8A%B8.md)
-  - Modern Java In Action
+  - Modern Java in Action
     - [Chapter 1 - 자바 8, 9, 19, 11 무슨 일이 일어나고 있는가?](https://github.com/juhwan-Ki/TIL/blob/main/ETC/modern-java-in-action/Chapter%201%20%20-%20%EC%9E%90%EB%B0%94%208%2C%209%2C%2010%2C%2011%20%EB%AC%B4%EC%8A%A8%20%EC%9D%BC%EC%9D%B4%20%EC%9D%BC%EC%96%B4%EB%82%98%EA%B3%A0%20%EC%9E%88%EB%8A%94%EA%B0%80.md)
