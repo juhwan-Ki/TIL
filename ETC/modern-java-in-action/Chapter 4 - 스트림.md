@@ -15,7 +15,8 @@
                 new Dish("왕새우", false, 300, Dish.Type.FISH));
 
 // 스트림 사용 전 코드
-				List<Dish> lowCalorieDishs = new ArrayList<>();
+
+List<Dish> lowCalorieDishs = new ArrayList<>();
         for (Dish dish : menu) {
             if(dish.getCalorie() > 400) {
                 lowCalorieDishs.add(dish);
@@ -38,7 +39,8 @@
         }
 
 // 스트림 사용 후 코드
-				List<String> lowCalorieDishName = menu.stream()
+
+List<String> lowCalorieDishName = menu.stream()
                 .filter(dish -> dish.getCalorie() < 400) // 400 칼로리 이하 요리 선택
                 .sorted(Comparator.comparing(Dish::getCalorie)) // 칼로리로 요리 정렬
                 .map(Dish::getName) // 요리명 추출
