@@ -105,3 +105,4 @@
     - [Chapter 3 - 람다 표현식](https://github.com/juhwan-Ki/TIL/blob/main/ETC/modern-java-in-action/Chapter%203%20-%20%EB%9E%8C%EB%8B%A4%20%ED%91%9C%ED%98%84%EC%8B%9D.md)
     - [Chapter 4 - 스트림](https://github.com/juhwan-Ki/TIL/blob/main/ETC/modern-java-in-action/Chapter%204%20-%20%EC%8A%A4%ED%8A%B8%EB%A6%BC.md)
     - [Chapter 5 - 스트림 활용](https://github.com/juhwan-Ki/TIL/blob/main/ETC/modern-java-in-action/Chapter%205%20-%20%EC%8A%A4%ED%8A%B8%EB%A6%BC%20%ED%99%9C%EC%9A%A9.md)
+    - [Chapter 6 - 스트림으로 데이터 수집](https://github.com/juhwan-Ki/TIL/blob/main/ETC/modern-java-in-action/Chapter%206%20-%20%EC%8A%A4%ED%8A%B8%EB%A6%BC%EC%9C%BC%EB%A1%9C%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%88%98%EC%A7%91.md)
