@@ -227,3 +227,80 @@ if(map.containsKey("key1") && Objects.equals(map.get("key1"), "value")) {
 // remove 사용
 map.remove("key1","value");
 ```
+
+### 합침
+
+두 개의 Map을 합칠 때 `merge` 메소드를 이용하여 값을 합칠 수 있다
+`merge` 메소드는 지정된 key와  연결된 값이 없거나 null이면 null이 아닌 값과 연결한다 
+또한 주어진 매핑 함수의 결과 값으로 대치하거나 결과가 null이면 항목을 제거한다
+
+```java
+Map<String,Integer> friends = Map.ofEntries(
+        Map.entry("박경찬", 30),
+        Map.entry("한국민", 27),
+        Map.entry("두반장", 50)
+);
+
+Map<String, Integer> family = Map.ofEntries(
+        Map.entry("이로아", 30),
+        Map.entry("어두칠", 27)
+);
+
+Map<String,Integer> everyone = new HashMap<>(family); // everyone 으로 모두 합침
+everyone.putAll(friends);
+
+/*
+	이렇게 하면 everyone으로 모든 map들이 합쳐진다 
+	하지만 여기서 문제가 되는건 중복된 key가 있게 되면 중복된 key의 값은 저장되지 않는다
+*/
+
+Map<String,Integer> everyone = new HashMap<>(family);
+friends.forEach((k,v) ->
+        everyone.merge(k,v,(v1,v2) -> v1 + v2) // friends와 everyone에 중복 키가 존재하면 두 값을 합침
+);
+System.out.println(everyone);
+
+// merge를 통해서 중복된 key가 있으면 해당 key의 값을 더하여서 저장하도록 할 수 있다
+
+default V merge(K key, V value,
+        BiFunction<? super V, ? super V, ? extends V> remappingFunction) {
+    Objects.requireNonNull(remappingFunction);
+    Objects.requireNonNull(value);
+    V oldValue = get(key); // 동일 키를 가진 값 찾기
+    V newValue = (oldValue == null) ? value :
+               remappingFunction.apply(oldValue, value); // 새값 생성
+    if (newValue == null) {  // 새로운 값이 널이면 제거, 
+        remove(key);
+    } else {
+        put(key, newValue);
+    }
+    return newValue;
+}
+```
+
+### 개선된 ConcurrentHashMap
+
+ConcurrentHashMap 클래스는 동시성 친화적이며 최신 기술을 반영한 HashMap이다
+ConcurrentHashMap은 내부 자료구조의 특정 부분만 잠궈 동시 추가 및 갱신 작업을 허용한다
+따라서 동기화된 HashTable 버전에 비해 읽기 쓰기 연산 성능이 월등하다
+
+### **리듀스와 검색**
+
+- forEach : 각 (키, 값) 쌍에 주어진 액션을 수행
+- reduce : 모든 (키, 값) 쌍을 제공된 리듀스 함수를 이용해 결과로 합침
+- search : 널이 아닌 값을 반환할 때까지 각 (키, 값) 쌍에 함수를 적용
+
+또한 연산에 병렬성 기준값(threshold)를 정해야 한다 맵의 크기가 기준값보다 작으면 순차적으로 연산을 진행한다 기준값을 1로 지정하면 공통 스레드 풀을 이용해 병렬성을 극대화할 수 있다
+
+### **계수**
+
+맵의 매핑 개수를 반환하는 mappingCount 메서드를 제공한다 기존에 제공되던 size 함수는 int형으로 반환하지만 long 형으로 반환하는 mappingCount를 사용할 때 매핑의 개수가 int의 범위를 넘어서는 상황에 대하여 대처할 수 있을 것이다
+
+### **집합뷰**
+
+ConcurrentHashMap을 집합 뷰로 반환하는 keySet 메서드를 제공한다 맵을 바꾸면 집합도 바뀌고 반대로 집합을 바꾸면 맵도 영향을 받는다 newKeySet이라는 메서드를 통해 ConcurrentHashMap으로 유지되는 집합을 만들 수도 있다
+
+### 정리
+
+- 자바9는 원소를 포함하며 바꿀 수 없는 List, Set, Map을 쉽게 만들도록 `List.of` `Set.of`  `Map.of` `Map.ofEntries` 등의 컬렉션 팩토리를 지원한다
+- remove, removeIf, replaceAll, replace, sort, computeIfAbsent 등 다양한 메소드가 추가되었다
