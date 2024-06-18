@@ -188,62 +188,436 @@ salaryList.parallelStream() // 병렬실행
 					.collect(Collector.toList()); // 결과
 ```
 
-### 코드의 유연성 개선 - **함수형 인터페이스 적용**
+### 코드의 유연성 개선 - 함수형 인터페이스 적용
 
 람다 표현식을 이용하려면 함수형 인터페이스가 필요하다 따라서 함수형 인터페이스를 코드에 추가 해야한다 
 
-1. **조건부 연기 실행**
-
-```java
-if(logger.isLoggable(Log.FINER)) logger.finer("Problem : " + generateDiagnostic());
-/*
-	평범해 보이는 코드지만 이코드에는 두가지의 문제점이 있다고 한다.
-	1. logger의 상태가 isLoggable() 이라는 메서드에 의해 클라이언트 코드로 노출된다
-	2. 메시지를 로깅할 때마다 logger 객체의 상태를 매번확인해야 하며 로깅의 수준을 변경하려면
-		 모든 분기문에 로깅 수준을 변경해야한다
-	* 클라이언트 코드란?
-		-> 클라이언트 코드란 코드를 호출하는 코드를 의미
-		-> 서버코드는 호출을 당하는 코드를 의미
-*/
-
-logger.log(Level.FINER, "Problem : " + generateDiagnostic());
-/*
-	내부적으로 logger 객체가 적절한 수준으로 설정되어 있는지 확인하는게 더 좋다
-	1. 더이상 isLoggable()이 클라이언트 코드에 존재하지 않는다
-	2. 객체 내부에 로깅을 하는 부분은 내부적으로 호출된다 단지 클라이언트 코드에선 수준과 내용만 정의
-	3. 다른 곳에서도 다 불러 사용할 수 있는 코드가 된다
-*/
-
-class Logger {
-	public void log(Level level, Supplier<String> msgSupplier) { // 함수형 인터페이스가 적용된 사례
-    if (!isLoggable(level)) { // 내부에서 로거의 상태 확인
-        return;
+- **조건부 연기 실행**
+    
+    ```java
+    if(logger.isLoggable(Log.FINER)) logger.finer("Problem : " + generateDiagnostic());
+    /*
+    	평범해 보이는 코드지만 이코드에는 두가지의 문제점이 있다고 한다.
+    	1. logger의 상태가 isLoggable() 이라는 메서드에 의해 클라이언트 코드로 노출된다
+    	2. 메시지를 로깅할 때마다 logger 객체의 상태를 매번확인해야 하며 로깅의 수준을 변경하려면
+    		 모든 분기문에 로깅 수준을 변경해야한다
+    	* 클라이언트 코드란?
+    		-> 클라이언트 코드란 코드를 호출하는 코드를 의미
+    		-> 서버코드는 호출을 당하는 코드를 의미
+    */
+    
+    logger.log(Level.FINER, "Problem : " + generateDiagnostic());
+    /*
+    	내부적으로 logger 객체가 적절한 수준으로 설정되어 있는지 확인하는게 더 좋다
+    	1. 더이상 isLoggable()이 클라이언트 코드에 존재하지 않는다
+    	2. 객체 내부에 로깅을 하는 부분은 내부적으로 호출된다 단지 클라이언트 코드에선 수준과 내용만 정의
+    	3. 다른 곳에서도 다 불러 사용할 수 있는 코드가 된다
+    */
+    
+    class Logger {
+    	public void log(Level level, Supplier<String> msgSupplier) { // 함수형 인터페이스가 적용된 사례
+        if (!isLoggable(level)) { // 내부에서 로거의 상태 확인
+            return;
+        }
+        LogRecord lr = new LogRecord(level, msgSupplier.get());
+        doLog(lr);
     }
-    LogRecord lr = new LogRecord(level, msgSupplier.get());
-    doLog(lr);
-}
-```
+    ```
+    
+- **실행 어라운드**
+    
+    매번 같은 준비, 종료 과정을 반복적으로 수행하는 코드가 있다면 이를 람다로 변환할 수 있다 로직을 재사용한다는 점에서 중복코드를 제거할 수 있다
+    
+    ```java
+    /*
+    	만약 시작과 종료를 알리는 라인을 제작해야한다. (아래의 예시)
+    ----------시작----------
+    프로그램 실행
+    ----------종료----------
+    	프로그램의 실행에 필요한 부분은 호출하는 부분에 정의할 수 있고 나머지 불필요하고 동일한 로직은 메소드에
+    	적용시켜 중복코드를 제거했다.
+    */
+    
+    printUi("프로그램 실행", System.out :: println);
+    
+    public static void printUi(String content, Consumer<String> consumer){
+            System.out.println("----------시작----------");
+            consumer.accept(content);
+            System.out.println("----------종료----------");
+    }
+    
+    ```
+    
 
-1. **실행 어라운드**
+### 람다로 객체지향 디자인 패턴 리팩터링하기
 
-매번 같은 준비, 종료 과정을 반복적으로 수행하는 코드가 있다면 이를 람다로 변환할 수 있다 로직을 재사용한다는 점에서 중복코드를 제거할 수 있다
-
-```java
-/*
-	만약 시작과 종료를 알리는 라인을 제작해야한다. (아래의 예시)
-----------시작----------
-프로그램 실행
-----------종료----------
-	프로그램의 실행에 필요한 부분은 호출하는 부분에 정의할 수 있고 나머지 불필요하고 동일한 로직은 메소드에
-	적용시켜 중복코드를 제거했다.
-*/
-
-printUi("프로그램 실행", System.out :: println);
-
-public static void printUi(String content, Consumer<String> consumer){
-        System.out.println("----------시작----------");
-        consumer.accept(content);
-        System.out.println("----------종료----------");
-}
-
-```
+- 전략
+    - 한 유형의 알고리즘을 보유한 상태에서 런타임에 적절한 알고리즘을 선택하는 기법
+    - 다양한 기준을 갖는 입력값 검증, 다양한 파싱 방법 사용, 입력 형식 설정 등에 활용 가능
+    - 전략 패턴 구성
+        1. 알고리즘을 나타내는 인터페이스
+        2. 다양한 알고리즘을 나타내는 인터페이스 구현
+        3. 전략 객체를 사용하는 클라이언트
+    
+    ```java
+    // ValidationStrategy
+    public interface ValidationStrategy {
+        boolean execute(String s);
+    }
+    
+    // IsAllLowerCase
+    public class IsAllLowerCase implements ValidationStrategy {
+        public boolean execute(String s) {
+            return s.matches("[a-z]+");
+        }
+    }
+    
+    // IsNumeric
+    public class IsNumeric implements ValidationStrategy {
+        public boolean execute(String s) {
+            return s.matches("[0-9]+");
+        }
+    }
+    // Validator 
+    public class Validator {
+        private final ValidationStrategy validationStrategy;
+    
+        public Validator(ValidationStrategy validationStrategy) {
+            this.validationStrategy = validationStrategy;
+        }
+    
+        public boolean validate(String s) {
+            return validationStrategy.execute(s);
+        }
+    }
+    // 람다 사용 전 Main
+    public class Main {
+        public static void main(String[] args) {
+            Validator numericValidator = new Validator(new IsNumeric());
+            System.out.println(numericValidator.validate("aaaa"));    // false
+            Validator lowerCaseValidator = new Validator(new IsAllLowerCase());
+            System.out.println(numericValidator.validate("bbbb"));    // true
+        }
+    }
+    
+    // 람다 사용 후 Main
+    public class Main {
+        public static void main(String[] args) {
+            Validator lowerCaseValidator = new Validator(s -> s.matches("[0-9]+"));
+            System.out.println(numericValidator.validate("aaaa"));    // false
+            Validator numericValidator = new Validator(s -> s.matches("[a-z]+"));
+            System.out.println(numericValidator.validate("bbbb"));    // true
+        }
+    }
+    
+    /*
+    	람다를 이용하면 새로운 클래스를 구현할 필요 없이 
+    	직접 코드를 전달하여 불필요한 코드를 줄일 수 있다
+    */ 
+    ```
+    
+    **결론**
+    
+    - 결국 ValidatorStrategy는 FunctionalInterface와 같이 동작한다
+    - 같은 디스크립터를 가지고 있다면 람다로 구현하는 것이 더 가독성을 높일 수 있다
+    - 람다 표현식은 코드 조각을 캡슐화 할 수 있다
+- 템플릿 메소드
+    - 알고리즘의 개요를 제시한 다음에 알고리즘의 일부를 고칠 수 있는 유연함을 제공해야 할 때 사용하는 패턴
+    - 즉 알고리즘의 기본적인 템플릿을 제공하고 세부적인 사항을 고칠 수 있도록 하는 패턴
+    
+    ```java
+    // 메인이 되는 템플릿 메소드를 가진 추상 클래스
+    public abstract class OnlineBanking{
+    		// 템플릿 메소드
+        public void processCustomer(String id){
+            Customer customer = DataBase.getCustomerWithId(id);
+            CustomerPrinter(customer);
+        }
+        protected abstract void CustomerPrinter(Customer customer);
+    }
+    
+    // 상속 받은 클래스
+    public class PrintTax extends OnlineBanking{
+    
+        @Override
+        protected void CustomerPrinter(Customer customer) {
+            System.out.println("TAX : " + customer.getMoney());
+        }
+    }
+    
+    public class Balance extends OnlineBanking{
+    
+        @Override
+        protected void CustomerPrinter(Customer customer) {
+            System.out.println("balance : " + customer.getMoney());
+        }
+    }
+    // 람다 사용 전
+    public static void main(String[] args) {
+          OnlineBanking PrintTaxOnlineBanking = new PrintTax();
+          PrintTaxOnlineBanking.processCustomer("김");
+    
+          OnlineBanking BalanceOnlineBanking = new Balance();
+          BalanceOnlineBanking.processCustomer("김");
+    }
+    
+    // 람다 사용
+    public static void main(String[] args) {
+            new OnlineBanking()
+    					.processCustomer("김",customer -> System.out.println("Tax :" + customer.getMoney()));
+            new OnlineBanking()
+    					.processCustomer("김",customer -> System.out.println("Balance :" + customer.getMoney()));
+    }
+    // 람다를 사용하도록 메소드 인자를 변경
+    class OnlineBanking{
+        public void processCustomer(String id, Consumer<Customer> CustomerPrinter){ 
+            Customer customer = DataBase.getCustomerWithId(id);
+            CustomerPrinter.accept(customer);
+        }
+    }
+    ```
+    
+    결론
+    
+    - 템플릿 메서드 패턴에 람다를 적용시킨다면 자잘한 코드조각을 분리할 수 있다
+    - 상속없이 직접 동작을 추가할 수 있다 (컴포넌트 형식의 클래스를 상속하여 추가하는 것이 아닌 직접 람다로 구현)
+- 옵저버
+    - 어떤 **이벤트가 발생했을 때 하나의 객체가 다른 객체에 알림**을 보내는 상황에 사용
+    
+    ```java
+    // 옵저버 인터페이스
+    interface Observer {
+        void notify(String tweet);
+    }
+    // 주체 인터페이스
+    interface Subject{
+        void registerObserver(Observer observer);
+        void notifyObserver(String tweet);
+    }
+    
+    // 주체를 상속받은 클래스
+    class Feed implements Subject{
+        List<Observer> observers = new ArrayList<>();
+    
+        @Override
+        public void registerObserver(Observer observer) {
+            observers.add(observer);
+        }
+    
+        @Override
+        public void notifyObserver(String tweet) {
+            observers.forEach(observer -> observer.notify(tweet));
+        }
+    }
+    // 옵저버를 상속받은 클래스
+    class ConcreteObserver {
+    
+        public static class NyTimes implements Observer{
+            @Override
+            public void notify(String tweet) {
+                System.out.println("NyTimes : " + tweet);
+            }
+        }
+    
+        public static class Guardian implements Observer{
+            @Override
+            public void notify(String tweet) {
+                System.out.println("Guardian : " + tweet);
+            }
+        }
+    
+        public static class LeMonde implements Observer{
+            @Override
+            public void notify(String tweet) {
+                System.out.println("LeMonde : " + tweet);
+            }
+        }
+    }
+    
+    // 람다 사용 전
+    public static void main(String[] args) {
+        Subject f = new Feed();
+        f.registerObserver(new ConcreteObserver.NyTimes());
+        f.registerObserver(new ConcreteObserver.Guardian());
+        f.registerObserver(new ConcreteObserver.LeMonde());
+    
+        f.notifyObserver("트윗 전송");
+    }
+    
+    // 람다 사용
+    public static void main(String[] args) {
+          Subject f = new Feed();
+          f.registerObserver(tweet -> System.out.println("NyTimes : " + tweet));
+          f.registerObserver(tweet -> System.out.println("Guardian : " + tweet));
+          f.registerObserver(tweet -> System.out.println("LeMonde : " + tweet));
+    
+          f.notifyObserver("트윗 전송");
+    }
+    ```
+    
+    **결론**
+    
+    - 옵저버 패턴에서의 람다는 불필요한 코드 또는 상속을 통한 구현을 제거하는데 도움이 된다
+    - 단점으로 생각해볼 것은 register에 추가하는 과정에 람다 표현식이 간결하다면 충분히 사용하지만 만약 엄청나게 복잡한 경우 상속을 통한 구현이 조금 더 좋은 코드라는 생각을 할 수 있다
+    - 옵저버가 상태를 가진다면 (consumer가 아닌) 다른 형태의 로직이 작동한다면 상속을 생각해볼 필요가 매우 있다
+- 의무 체인
+    - 작업 처리 객체의 체인(다음 동작)을 만들 때 의무 체인을 패턴을 사용한다
+    - 즉 한 객체가 어떤 작업을 처리하고 다른 객체에게 결과를 전달하는 식이다
+    
+    ```java
+    // 체인을 걸 추상 클래스 추가
+    public abstract class ProcessingObject<T> {
+        protected ProcessingObject<T> successor;
+        public void setSuccessor(ProcessingObject<T> successor) {
+            this.successor = successor;
+        }
+    
+        public T handler(T input) {
+            T output = work(input);
+            if (successor != null) return successor.handler(output);
+            return output;
+        }
+    
+        abstract protected T work(T input);
+    }
+    
+    /*
+    	handler 메서드를 보면 해야할 작업을 처리(work)를 한 후 
+    	설정된 successor이 있으면 객체를 넘겨 successor에 handler메서드를 실행시킨다
+    */
+    
+    // 예제 클래스
+    public class Car {
+        public boolean hasTire; // 타이어 조립 여부
+        public boolean hasDoor; // 문 조립 여부
+        public Car() {
+        	this.hasTire = false;
+            this.hasDoor = false;
+        }
+        
+        public void setHasDoor(boolean hasDoor) {
+            this.hasDoor = hasDoor;
+        }
+    
+        public void setHasTire(boolean hasTire) {
+            this.hasTire = hasTire;
+        }
+    
+        @Override
+        public String toString() {
+            return "Car{" +
+                    "hasTire=" + hasTire +
+                    ", hasDoor=" + hasDoor +
+                    '}';
+        }
+    }
+    
+    // 체인을 상속받는 클래스
+    public class TireFactory extends ProcessingObject<Car> { // 타이어 조립 공장
+        @Override
+        protected Car work(Car car) {
+            car.setHasTire(true);
+            return car;
+        }
+    }
+    
+    public class DoorFactory extends ProcessingObject<Car> { // 문 조립 공장
+        @Override
+        protected Car work(Car car) {
+            car.setHasDoor(true);
+            return car;
+        }
+    }
+    
+    // 람다 사용 전
+    public static void main(String[] args) {
+    		ProcessingObject<Car> factory1 = new TireFactory();
+    		ProcessingObject<Car> factory2 = new DoorFactory();
+    		factory1.setSuccessor(factory2);
+    		Car car = factory1.handler(new Car());
+    }
+    
+    // 람다 사용 후 
+    public static void main(String[] args) {
+    		UnaryOperator<Car> factory1 = (Car car) -> { car.setHasTire(true); return car; };
+    		UnaryOperator<Car> factory2 = (Car car) -> { car.setHasDoor(true); return car; };
+    		Function<Car, Car> pipeline = factory1.andThen(factory2);
+    		Car car = pipeline.apply(new Car());
+    }
+    ```
+    
+    **결론**
+    
+    - 의무체인 또한 간결하게 줄일 수 있는 코드가 될 수 있다.
+    - 의무체인의 구현은 andThen으로 매우 잘 이루어져 있다.
+- 팩토리 메서드
+    - 인스터스화 로직(객체 생성로직, new 호출)을 클라이언트에 노출하지 않고 객체를 만들 때 사용
+    
+    ```java
+    // 예제 클래스
+    public class Car {
+        private String name;
+        private CarType type;
+        public Car(String name, CarType type) {
+            this.name = name;
+            this.type = type;
+        }
+    }
+    
+    // 상속받은 자식 클래스
+    public class SmallCar extends Car {
+        public SmallCar(String name) {
+            super(name, CarType.SMALL);
+        }
+    }
+    
+    public class SedanCar extends Car {
+        public SedanCar(String name) {
+            super(name, CarType.SEDAN);
+        }
+    }
+    
+    public class SuvCar extends Car {
+        public SuvCar(String name) {
+            super(name, CarType.SUV);
+        }
+    }
+    
+    // 람다 사용 전 -> 팩토리 클래스를 통해 팩토리 메소드 구현
+    public class CarFactory {
+        public Car createCar(CarType carType) {
+            switch (carType) {
+                case SMALL:
+                    return new SmallCar("모닝");
+                case SEDAN:
+                    return new SedanCar("아반테");
+                case SUV:
+                    return new SuvCar("투싼");
+                default:
+                    return null;
+            }
+        }
+    }
+    
+    // 람다 사용 후
+    public class CarFactory {
+        private final Map<CarType, Supplier<Car>> map = Map.ofEntries(
+            Map.entry(CarType.SMALL, () -> new SmallCar("모닝")),
+            Map.entry(CarType.SEDAN, () -> new SedanCar("아반테")),
+            Map.entry(CarType.SUV, () -> new SuvCar("투싼"))
+        );
+    
+        public Car createCar(CarType carType) {
+            Supplier<Car> supplier = map.get(carType);
+            if (supplier != null) return supplier.get();
+            throw new IllegalArgumentException("No Such Car type");
+        }
+    }
+    ```
+    
+    **결론** 
+    
+    - 팩토리메서드를 이용하면 더 이상 클라이언트에 생성자 호출, 인스턴스화로직을 노출할 필요가 없다
+    - 중요한 점은 **Factory 만 고친다면 다른 부분의 수정은 더 이상 필요없다**
+    - 팩토리 메서드를 이용하면 여러 곳에서 Factory만 불러와서 사용하면 더 이상의 로직 수정이 필요없다
+    - **여러 인수를 받거나 받아야 하는 상황이라면 새로운 함수형 인터페이스를 만들어서 인자로 사용하면 된다**
