@@ -236,3 +236,103 @@ module expenses.readers {
 ### 이름 명명규칙
 
 모듈의 이름은 오라클에서 패키지명처럼 인터넷 도메인명을 역순으로 지정하도록 권고한다 (ex : com.iteratrlearning.training) 더욱이 노출된 주요 API 패키지와 이름이 같아야 한다는 규칙도 따라야 한다
+
+### 자동 모듈
+
+모듈화가 되지 않은 외부 라이브러리를 사용하기 위해 지원되는 것을 자동 모듈이라고 말한다 자바는 JAR를 자동 모듈이라는 형태로 적절하게 변환하여 모듈 경로상에 있으나 module-info 파일을 가지지 않는 모든 JAR파일을 자동 모듈화 한다 
+
+자동 모듈은 암묵적으로 자신의 모든 패키지를 노출시키며 자동 모듈의 이름은 JAR 이름을 이용해서 정해진다(jar —describe-module 인수를 사용해서 이름을 변경할 수 있음)
+
+### 모듈 정의와 구문들
+
+1. requries
+    - 컴파일 타임과 런타임에 한 모듈이 다른 모듈에 의존함을 정의한다
+    
+    ```java
+    module com.proudct.application {
+    	requires com.product.ui;
+    }
+    
+    /*
+    	com.product.ui에서 외부로 노출한 공개 형식에 접근하여 
+    	com.proudct.application에서 사용할 수 있게 됨
+    */
+    ```
+    
+2. exports
+    - 지정한 패키지르 다른 모듈에서 이용할 수 있도록 공개 형식으로 만든다
+    - 아무 패키지도 공개 하지 않는 것이 기본 설정이며 어떤 패키지를 공개할 것인지를 명시적으로 지정함으로 캡슐화를 높일 수 있다
+    
+    ```java
+    module com.proudct.ui {
+    	requires com.product.core; // 모듈명
+    	exports com.product.ui.color;  // 패키지명
+    }
+    
+    /*
+    	exports는 패키명을 인수로 받지만 requires는 모듈명을 인수로 받음
+    */
+    ```
+    
+3. requires transitive
+    - 다른 모듈이 제공하는 공개 형식을 한 모듈에서 사용할 수 있다고 지정
+    즉 다른 모듈에서 의존하고 있는 모듈도 같이 사용할 수 있다
+    
+    ```java
+    module com.proudct.ui {
+    	requires transitive com.product.core; // 모듈명
+    	exports com.product.ui.color; 
+    }
+    
+    ...
+    module com.proudct.application {
+    	requires com.product.ui;
+    }
+    
+    /*
+    	requires transitive를 통해 com.proudct.application에서도
+    	com.product.core에 있는 공개 형식에 접근하여 사용할 수 있게됨
+    	
+    	requires transitive를 하지 않았으면 com.proudct.application에서 
+    	requires를 통해서 다시 정의를 해야함
+    	
+    	즉 다른 모듈에서 참조하는 모듈까지 가져다가 사용할 수 있게함
+    */
+    ```
+    
+4. exports to
+    - 특정 패키지를 특정 모듈에만 공개하도록 제어한다
+    
+    ```java
+    module com.proudct.ui {
+    	requires transitive com.product.core; 
+    	// 특정 모듈(com.product.ui.frame)에만 com.product.ui.color 패키지를 공개
+    	exports com.product.ui.color to com.product.ui.frame;
+    }
+    
+    /*
+    	exports to를 사용해서 com.product.ui.frame 모듈에만 
+    	com.product.ui.color을 공개하도록 제어한다
+    	
+    	exports to 는 모듈의 캡슐화를 더욱 강화하기 위해 사용되고 사용하게 되면 
+    	코드의 일부가 의도한 모듈에만 접근 가능하고, 
+    	불필요한 모듈에서는 접근이 불가능하게 되어 보안과 모듈 간 결합도를 낮출 수 있다
+    	이 방식은 특히 라이브러리 설계에서 중요한 역할을 하며, 
+    	API의 일부만 특정 사용자(모듈)에 노출할 수 있다
+    	
+    	exports: 패키지를 모든 모듈에 공개
+    	exports to: 패키지를 특정 모듈에만 공개
+    */
+    ```
+    
+5. open, opens
+    - 리플렉션(reflection)을 사용하는 경우, 모듈의 캡슐화된 패키지에 대한 접근을 제어하는 데 사용된다 모듈 내의 패키지를 외부 모듈이 리플렉션을 통해 접근할 수 있도록 허용할지 여부를 결정한다
+    - 리플렉션은 객체 지향 프로그래밍 언어에서 런타임에 프로그램의 구조와 상태를 검사하고 수정할 수 있는 기능을 말한다 쉽게 말해, 프로그램이 실행되는 동안 클래스, 메서드, 필드 등과 같은 객체의 정보를 동적으로 탐색하고 조작할 수 있는 방법을 제공한다
+    - opens:
+        - 특정 패키지를 리플렉션을 통해 열 수 있다
+        - `opens to`를 사용해 특정 모듈에만 리플렉션 접근을 허용할 수 있다
+        - 기본적으로 해당 패키지를 열어도, 소스 코드의 접근 권한을 변경하지는 않는다 
+        즉, 컴파일 시점에서는 여전히 접근 제한이 적용된다
+    - open:
+        - 모듈 전체를 리플렉션에 대해 연다
+        - 모듈 내 모든 패키지가 리플렉션을 통해 접근 가능하게 된다
