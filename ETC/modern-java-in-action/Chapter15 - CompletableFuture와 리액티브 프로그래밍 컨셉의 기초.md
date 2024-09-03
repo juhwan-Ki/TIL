@@ -215,3 +215,391 @@ class ExecutorServiceExample{
 ```
 
 위의 단점들은 스트림을 이용해 내부반복으로 바꾼것처럼 비슷한 방법으로 이 문제를 해결해야한다 문제의 해결은 비동기 API라는 기능으로 API를 바꿔서 해결할 수 있다
+
+### 비동기 API
+
+첫번째 방법인 자바의 Future를 이용하면 이 문제를 조금 개선 할 수 있다 이 대안을 적용 시키면 f, g의 시그니처가 다음처럼 바뀐다
+
+```java
+Future<Integer> f(int x);
+Future<Integer> g(int x);
+```
+
+메서드 f와 g는 호출 즉시 자신의 원래 바디를 평가하는 태스크를 포함하는 Future을 반환한다 하지만 조금 큰 프로그램에서는 두가지로 이유로 이런 방식을 사용하지 않는다
+
+- 다른 상황에서는 g에도 Future형식이 필요할 수 있으므로 API의 형식을 통일하는 것이 바람직하다
+- 병렬 하드웨어로 프로그램 실행속도를 극대화하려면 여러 작은 하지만 합리적인 크기의 태스크로 나누는 것이 좋다
+
+결국 f 가 오래걸리는 작업이라면 결국 병합 get()과정에서 블록이 되어 기다려야 한다 과연 좋은 걸까?
+
+### **리액티브 형식 API**
+
+핵심은 f, g의 시그니처를 바꿔 콜백 형식의 프로그래밍을 이용하는 것이다
+
+```java
+void f(int x, IntConsumer dealWithResult);
+...
+
+public static void main(String[] args) {
+    int x = 1337;
+    Result result = new Result();
+    f(x, (y) -> {
+        result.left = y;
+        System.out.println(result.left + result.right);
+    });
+    g(x, (y) -> {
+        result.right = y;
+        System.out.println(result.left + result.right);
+    });
+}
+
+static void f(int x, IntConsumer dealWithResult) {
+    dealWithResult.accept(x);
+    System.out.println("x 실행");
+}
+
+static void g(int x, IntConsumer dealWithResult) {
+    dealWithResult.accept(x);
+    System.out.println("g 실행");
+}
+...
+
+class Result {
+    public int left;
+    public int right;
+}
+
+/* result 
+		1337
+		x 실행
+		2674
+		g 실행
+*/
+```
+
+하지만 결과가 정확하게 출력되지 않는다 이유는 상황에 따라 먼저 계산을 실행하고 그 결과를 출력하기 때문이다 이 문제를 보완할 수 있는 방법은 없을까?
+
+- if-then-else를 이용하여 적절하게 락을 이용해 두 콜백이 모두 호출 되었는지 확인한 다음 println을 실행할 수 있다
+- 리액티브 형식의 API는 보통 한 결과가 아니라 일련의 이벤트에 반응하도록 설계되었으므로 Future을 이용하는 것이 더 적절하다
+
+### 잠자기(기타 블로킹 동작)는 해로운 것으로 간주
+
+우리는 sleep()이라는 스레드의 잠자기 메서드를 종종 사용하는 것을 보았다 과연 이 잠자기는 좋은 것일까? 사람이 잠을 잘 때에도 몸은 쉬지 않고 일을 한다 스레드도 마찬가지다 잠을 자도 자신이 점유하는 자원을 반환하지 않는다 가지고 자는 것이다 이것은 자원점유로 인하여 낭비로 이어진다 또 자바에선 블록이 있다 잠자기와 비슷하지만 스레드가 일을 하는 동안 다른 스레드는 잠시 멈춘다 이것또한 낭비다 그럼 어떻게 해야할까?
+
+```java
+// sleep()을 사용한 경우
+public class Main {
+    public static void main(String[] args) throws InterruptedException {
+        work1();
+        Thread.sleep(2000); // 자는동안도 스레드 자원 낭비 중
+        work2();
+    }
+
+    static void work1() {
+        System.out.println("work 1 실행");
+    }
+
+    static void work2() {
+        System.out.println("work 2 실행");
+    }
+}
+
+// 스케줄링을 이용한 경우
+public class Main {
+
+    public static void main(String[] args) throws InterruptedException {
+        ScheduledExecutorService scheduledExecutorService =
+                Executors.newScheduledThreadPool(1);
+        work1();
+        scheduledExecutorService.schedule(Main::work2, 2, TimeUnit.SECONDS);
+        scheduledExecutorService.shutdown();
+    }
+
+    static void work1() {
+        System.out.println("work 1 실행");
+    }
+
+    static void work2() {
+        System.out.println("work 2 실행");
+    }
+}
+
+/*
+	두 코드 모두 스레드 풀에서 실행된다고 가정
+	
+	sleep 사용
+		- work1()을 실행하고 10초 동안 잠에 든 후 일어나서 
+			work2() 작업을 실행한 뒤 종료 및 워커 스레드를 해제
+		- 10초동안 아무일도 하지 않고 자원을 점유
+		
+	스케줄러 사용
+		- work1() 실행 후 종료한 뒤 work2()가 10초 뒤에 실행될 수 있도록 큐에 추가
+	  - 다른 작업을 허용할 수 있도록 함(대신 큐에 저장을 했기 때문에 메모리는 조금 더 사용)
+	  
+	태스크를 만들 때 주의해야할 점
+		1. 태스크를 실행하면 자원을 점유하므로 태스크가 끝날 때 까지 계속 실행시켜야 한다
+		2. 태스크를 블록하는 것 보다 다음 작업을태스크로 제출하고 현재 태스크를 종료하는 것이
+		   바람직하다
+		3. 하지만 태스크를 모두 비동기로 만드는 것은 좋지 않다
+			 개선된 동시성 API를 사용하는 것도 방법이다
+*/
+```
+
+### 비동기 API에서 예외는 어떻게 처리하는가?
+
+Future나 리액티브 형식의 비동기 API에서 호출된 메소드의 실제 바디는 별도의 스레드에서 호출되며 이때 발생하는 어떤 에러는 이미 호출자의 실행 범위와는 관계가 없는 상황이 된다 이렇게 예상치 못한 상황이 발생하면 예외를 발생시켜 다른 동작이 실행되도록 해야한다 어떻게 이를 실현할 수 있을까?
+
+```java
+void f(int x, Consumer<Integer> dealWithResult, Consumer<Throwable> dealWithException)
+void f(int x, Subscript<Integer> s) // 보통이렇게 인수가 많아지면 한 객체로 감싼다 
+
+/*
+	Future을 구현한 CompletableFuture에서는 런타임 get() 메소드에 예외를 처리할 수 있는
+	기능을 제공하며 예외에서 회복할 수 있도록 exceptionally() 같은 메소드도 제공한다
+*/
+```
+
+## **CompletableFuture와 콤비네이터를 이용한 동시성**
+
+Java 8에서는 Future 인터페이스의 구현인 CompletableFuture를 이용하여 Future를 조합할 수 있는 기능을 추가했다 일반적으로 Future는 실행하여 get()으로 결과를 얻을 수 있는 Callable로 만들어진다 하지만 CompletableFuture는 실행할 코드 없이 Future를 만들수 있고 complete() 메서드를 활용하여 나중에 어떤 값을 이용해 다른 스레드가 이를 완료할 수 있고 get()으로 결과를 얻을수 있도록 허용한다
+
+thenCombine 사용 전
+
+```java
+public class Main {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        int x = 1337;
+
+        CompletableFuture<Integer> a = new CompletableFuture<>();
+        executorService.submit(() -> a.complete(f(x)));
+
+        int b = g(x);
+        System.out.println(a.get() + b);
+
+        executorService.shutdown();
+    }
+
+    private static int f(int x) {
+        return 0;
+    }
+
+    private static int g(int x) {
+        return 0;
+    }
+}
+
+/*
+	f가 끝나지 않는다면 get()을 가다려야 하므로 프로세싱 자원 낭비 가능성이 있다
+	CompletableFuture를 사용하면 해결할 수 있다
+	thenCombine() 메서드를 사용함으로써 두 연산 결과를 효과적으로 사용할 수 있다
+*/
+
+... 
+CompletableFuture<V> thenCombine(CompletableFuture<U> other, BiFunction<T, U, V> fn)
+/*
+	두 개의 CompletableFuture를 받아 한개의 새 값을 만든다
+	처음 두 작업이 끝나면 두 결과 모두에 fn을 적용하고 블록하지 않은 상태로 
+	결과 Future를 반환한다
+*/
+```
+
+thenCombine 사용 후 
+
+```java
+public class Main {
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        int x = 1337;
+
+        CompletableFuture<Integer> a = new CompletableFuture<>();
+        CompletableFuture<Integer> b = new CompletableFuture<>();
+        CompletableFuture<Integer> c = a.thenCombine(b, Integer::sum);
+				
+				// a,b의 연산이 마무리가 되어야 c연산 수행
+        executorService.submit(() -> a.complete(f(x)));
+        executorService.submit(() -> b.complete(g(x)));
+
+        System.out.println(c.get());
+        executorService.shutdown();
+    }
+
+    private static Integer f(int x) {
+        return 0;
+    }
+
+    private static Integer g(int x) {
+        return 0;
+    }
+}
+/*
+	Future a, Future b의 결과를 알지 못한 상태에서 thenCombine()은 두 연산이 끝났을 때 
+	스레드 풀에서 실행된 연산을 만든다
+	결과를 추가하는 세 번째 연산 c는 두 작이 끝날 때까지는 스레드에서 실행되지 않는다
+		
+	동작 순서 
+	1. a.complete(f(x));
+	2. b.complete(g(x));
+	3. c = a.thenCombine(b, Integer::sum);
+	4. c.get();
+	
+	차이점 
+		- 기존에 Future을 사용할때는 f와 g의 실행이 종료되지 않으면 
+		  합산 연산은 블록된 상태로 자원을 잡아먹고 있는다
+		  하지만 이 방법의 경우 실행이 되지 않고 f와 g가 끝나면 그때 실행이 이루어 지는 것이다
+		  결국 자원을 아예 사용하지 않는 것이다
+*/
+```
+
+### **발행-구독 그리고 리액티브 프로그래밍**
+
+Future와 CompletableFuture은 독립적 실행과 병렬성이라는 정식적 모델에 기반한다 연산이 끝나면 get()으로 Future의 결과를 얻을 수 있다. 따라서 Future은 한번만 실행된다
+
+반면 리액티브 프로그래밍은 시간이 흐르면서 여러 Future 같은 객체를 통해 여러 결과를 제공한다
+
+자바 9에서는 java.util.concurrent.Flow의 인터페이스에 발행-구독 모델을 적용해 리액티브 프로그래밍을 제공한다 자바 9 플로 API는 좀 더 자세히 살펴보겠지만 간단히 다음 3가지로 API를 정리할 수 있다
+
+- 구독자가 구동할 수 있는 발행자
+- 이 연결을 구독이라 한다
+- 이 연결을 이용해 메시지를 전송한다
+
+두 플로우 합치는 예제
+
+```java
+public static void main(String[] args) {
+    SimpleCell c1 = new SimpleCell("c1");
+    SimpleCell c2 = new SimpleCell("c2");
+    ArithmeticCell c3 = new ArithmeticCell("c3");
+		// Subscriber 구현체를 가져옴
+    Subscriber<? super Integer> left = c3::setLeft; 
+    Subscriber<? super Integer> right = c3::setRight;
+    
+		// Subscriber 구현체를 저장
+    c1.subscribe(left);
+    c2.subscribe(right);
+	
+    c1.onNext(10);
+    c2.onNext(120);
+}
+...
+public interface Publisher<T>{
+    void subscribe(Subscriber<? super T> subscriber);
+}
+...
+public interface Subscriber<T>{
+    void onNext(T t);
+}
+
+... // 셀 객체
+public class SimpleCell implements Publisher<Integer>, Subscriber<Integer>{
+	  private int value = 0;
+    private String address;
+    private List<Subscriber> subscribers = new ArrayList<>();
+
+    public SimpleCell(String address) {
+        this.address = address;
+    }
+
+    private void notifyAllSubscribers(){
+        subscribers.forEach(subscribers -> subscribers.onNext(this.value));
+        // onNext() 실행시에 Subscriber의 setLeft, setRight 실행
+    };
+    @Override
+    public void subscribe(Subscriber<? super Integer> subscriber) {
+        subscribers.add(subscriber);
+    }
+
+    @Override
+    public void onNext(Integer integer) {
+        this.value = integer;
+        System.out.printf("%s : %d%n", this.address, this.value);
+        notifyAllSubscribers();
+    }
+
+    void setNewValue(Integer newValue){
+        System.out.println("setNewValue 진입");
+        this.value = newValue;
+        System.out.printf("%s : %d%n", this.address, this.value);
+    }
+}
+
+... // 합쳐지는 셀 객체
+class ArithmeticCell extends  SimpleCell{
+    private int left;
+    private int right;
+
+    public ArithmeticCell(String address) {
+        super(address);
+        System.out.println("ArithmeticCell 생성자");
+    }
+
+    public void setLeft(int left) {
+        System.out.print("setLeft");
+        this.left = left;
+        setNewValue(left + this.right);
+    }
+
+    public void setRight(int right) {
+        System.out.println("setRight");
+        this.right = right;
+        setNewValue(this.left + right);
+    }
+}
+```
+
+<aside>
+💡
+
+데이터가 발행자(생산자)에서 구독자(소비자)로 흐름에 착안해 개발자는 이를 업스트림 또는 다운스트림이라 부른다 위 예제에서 데이터는 newValue는 업스트림 onNext메서드로 전달되고 notifyAllSubscriber 호출을 통해 다운스트림 onNext 호출로 전달된다
+
+</aside>
+
+### 역압력
+
+매 초마다 수천개의 메시지가 onNext로 전달된다면 빠르게 전달되는 이벤트를 아무 문제 없이 처리할 수 있을까? 이러한 상황을 압력(pressure)이라 부른다 이럴때는 정보의 흐름 속도를 제어하는 역압력 기법이 필요하다 역압력은 Subscriber가 Publisher로 정보를 요청할 때만 전달할수 있도록 한다
+
+```java
+ interface Subscriber<T> {
+		 void onSubscribe(Subscription subscription) // 여기를 통해서 정보를 보낼 수 있음
+ }
+ /*
+	 Publisher와 Subscriber 사이에 채널이 연결되면(구독을 하게 된다면) 
+	 첫 이벤트로 이 메소드가 호출된다
+	 Subscription 객체는 Subscriber와 Publisher와 통신할 수 있는 메소드를 포함한다
+ */
+ 
+ 
+interface Subscription {
+		void cancel();
+		void request(long n);
+}
+
+/*
+	콜백을 통하여 '역방향' 소통 효과에 주목하자
+	Publisher는 Subscription 객체를 만들어 Subscriber로 전달하면 
+	Subscriber는 이를 이용해 Publisher로 정보를 보낼 수 있다
+*/
+```
+
+### 실제 역압력의 간단한 형태
+
+- Subscriber가 OnSubscribe로 전달된 Subscription(객체이름) 객체를 subscription(지역변수) 같은 필드에 로컬로 저장한다
+- Subscriber가 수많은 이벤트를 받지 않도록 onSubscribe, onNext, onError의 마지막 동작에 channel.request(1)을 추가해 오직 한 이벤트만 요청한다
+- 요청을 보낸 채널에만 onNext, onError 이벤트를 보내도록 Publisher의 notifyAllSubscribers 코드를 바꾼다 (보통 여러 Subscriber가 자시만의 속도를 유지할 수 있도록 Publisher는 새 Subscription을 만들어 각 Subscriber와 연결한다)
+
+구현이 간단해 보일 수 있지만 역압력을 구현하려면 여러가지 장단점을 생각해야한다
+
+- 여러 Subscriber가 있을 때 이벤트를 가장 느린 속도로 내보낼 것인가? 아니면 각 Subscriber애게 보내지 않은 데이터를 저장할 별도의 큐를 가질 것인가?
+- 큐가 너무 커지면 어떻게 해야할까?
+- Subscriber가 준비가 안 되었다면 큐의 데이터를 폐기할 것인가?
+
+**정리**
+
+- 자바의 동시성 지원은 계속 진화하고 있다 스레드 풀은 보통 유용하지만 블록되는 태스크가 많다면 다시 생각해보자
+- 메소드를 비동기(결과를 처리하기전에 반환)로 만들면 병렬성을 추가할 수 있으며 부수적으로 루프를 최적화한다
+- 박스와 채널모델을 이용해 비동기 시스템을 시각화할 수 있다
+- 자바 8 CompletableFuture 클래스와 자바 9 플로우 API 모두 박스와 채널 다이어그램으로 표현 할 수 있다
+- CompletableFuture 클래스는 한 번의 비동기 연산을 표현한다 콤비네이터로 비동기 연산을 조합함으로 Future를 이용할 때 발생했던 기존의 블로킹 문제를 해결 할 수 있다
+- 플로우 API는 발행-구독 프로토콜, 역압력을 이용하면 자바의 리액티브 프로그래밍의 기초를 제공한다
+- 리액티브 프로그래밍을 이용해 리액티브 시스템 즉, 반응성, 회복성, 탄력성을 가진 시스템을 구현할 수 있다
