@@ -69,6 +69,7 @@
     - [Process Thread 동기화](https://github.com/juhwan-Ki/TIL/blob/main/CS/Operating%20System/Process%20Thread%20%EB%8F%99%EA%B8%B0%ED%99%94.md)
     - [IPC](https://github.com/juhwan-Ki/TIL/blob/main/CS/Operating%20System/IPC.md)
     - [DeadLock](https://github.com/juhwan-Ki/TIL/blob/main/CS/Operating%20System/DeadLock.md)
+    - [CPU 스케줄링](https://github.com/juhwan-Ki/TIL/blob/main/CS/Operating%20System/CPU%20%EC%8A%A4%EC%BC%80%EC%A4%84%EB%A7%81.md)
 
   - DB
     - [RDB & NoSQL](https://github.com/juhwan-Ki/TIL/blob/main/CS/DB/RDB%20%26%20NoSQL.md)
