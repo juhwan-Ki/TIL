@@ -100,6 +100,7 @@
   - [Static Initialization Block & Instance Initialization Block](https://github.com/juhwan-Ki/TIL/blob/main/Java/Static%20Initialization%20Block%20%26%20Instance%20Initialization%20Block.md)
   - [Object](https://github.com/juhwan-Ki/TIL/blob/main/Java/Object.md)
   - [String](https://github.com/juhwan-Ki/TIL/blob/main/Java/String.md)
+  - [Enum](https://github.com/juhwan-Ki/TIL/blob/main/Java/Enum.md)
 
 - Web
   - [Web Server & WAS](https://github.com/juhwan-Ki/TIL/blob/main/Web/Web%20Server%20%26%20WAS.md)
