@@ -1,7 +1,7 @@
 ## Docker란?
 
-- 컨테이너 기반 가상화 도구!
-- 애플리케이션을 컨테이너라는 단위로 격리하여 실행하는 기술!
+- 컨테이너 기반 가상화 도구
+- 애플리케이션을 컨테이너라는 단위로 격리하여 실행하는 기술
 - 리눅스 컨테이너 기술인 LXC(Linux Containers)을 기반으로 한 기술
 - 다양한 운영체제에서 사용할 수 있으며, 컨테이너화된 애플리케이션을 손쉽게 빌드, 배포, 관리할 수 있는 다양한 기능을 제공
 - 위 기능들을 통해 애플리케이션을 빠르게 개발하고, 효율적으로 배포, 관리할 수 있음
@@ -23,7 +23,7 @@
 - 애플리케이션을 구동하기 위한 환경을 제공
 - 코드 배포와 테스트를 쉽고 빠르게 진행가능
 
-### Docker **Architecture**
+### Docker Architecture
 
 ![Untitled](https://github.com/juhwan-Ki/TIL/assets/87765888/79c163ab-100b-4caf-a7e5-37cb3c2d19fb)
 
@@ -56,7 +56,7 @@
     - 애플리케이션을 실행하기 위한 모든 파일과 설정 정보를 포함하는 패키지
 
 <aside>
-💡 Docker hub는 App Store로 image는 App Store에서 받아온 프로그램(App), 그 프로그램을 실행시키면 발생하는 프로세스를 Container라고 생각하면 된다!
+💡 Docker hub는 App Store로 image는 App Store에서 받아온 프로그램(App), 그 프로그램을 실행시키면 발생하는 프로세스를 Container라고 생각하면 된다
 
 </aside>
 
