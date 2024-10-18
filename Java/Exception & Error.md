@@ -43,8 +43,7 @@ JVM은 프로그램을 실행하는 도중 예외가 발생하면 해당 예외 
 ![image](https://github.com/user-attachments/assets/8e899ff8-7c3f-4974-94f2-ad78f0047cd0)
 
 <aside>
-💡
-
+	
 Throwable 클래스란? 
 오류와 예외 모두 자바의 최상위 클래스인 Object를 상속받는다
 Throwable 클래스의 역할은 오류나 예외에 대한 메시지를 담는 것이다 
@@ -54,8 +53,6 @@ Throwable을 상속받은 Error와 Exception 클래스에서도 두 메소드를
 </aside>
 
 <aside>
-💡
-
 printStackTrace() : 예외발생 당시 호출스택에 있던 메소드의 정보와 예외 메시지 출력
 
 getMessage() : 발생한 예외클래스의 인스턴스에 저장된 메시지를 가져옴
