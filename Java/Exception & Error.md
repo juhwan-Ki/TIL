@@ -3,18 +3,13 @@
 - 논리 에러(Logic Error)
     - 이른바 버그라고 생각하면 되며 프로그램이 실행하고 동작하는데 아무런 문제가 없는 오류지만, 결과가 예상과 달라 의도한 작업을 수행하지 못하게 되어 서비스 이용에 문제가 생기는 에러
     - 개발자가 프로그램의 전반적인 코드와 알고리즘을 체크해야 한다
+
 - 컴파일 에러(Compillation Error)
     - 컴파일 단계에서 발생하는 오류로 컴파일러가 에러 메세지를 출력해주는 에러
     - 대표적인 원인으로 문법 구문 오류(syntax error)이다
     - 컴파일 오류는 컴파일이 안된다는 의미이며 즉 프로그램이 만들어지지 않아 프로그램 자체가 실행되지 않기 때문에 심각하게 볼 오류는 아니다
-        
-        <aside>
-        💡
-        
-        컴파일 에러는 소스 코드를 javac.exe로 컴파일 하는 과정에서 컴파일러가 전반적인 코드를 체크해서 에러 메세지를 보여주는 형태이지만, IDE에서는 일정 주기로 계속 자동으로 컴파일을 해주기 때문에 바로바로 문제를 알 수 있다
-        
-        </aside>
-        
+    - 컴파일 에러는 소스 코드를 javac.exe로 컴파일 하는 과정에서 컴파일러가 전반적인 코드를 체크해서 에러 메세지를 보여주는 형태이지만, IDE에서는 일정 주기로 계속 자동으로 컴파일을 해주기 때문에 바로바로 문제를 알 수 있다
+
 - 런타임 에러(Runtime Error)
     - 프로그램 실행 중에 발생하는 에러
     - 대체로 개발 시 논리적인 설계 미숙으로 발생하는 경우가 대부분이며 런타임 에러 발생 시 프로그래머가 역추적해서 원인 확인을 해야한다
@@ -44,10 +39,10 @@ JVM은 프로그램을 실행하는 도중 예외가 발생하면 해당 예외 
 
 <aside>
 	
-Throwable 클래스란? 
-오류와 예외 모두 자바의 최상위 클래스인 Object를 상속받는다
-Throwable 클래스의 역할은 오류나 예외에 대한 메시지를 담는 것이다 
-대표적으로getMessage() 와printStackTrace() 메소드가 바로 이 클래스에 속해 있다
+Throwable 클래스란? <br>
+오류와 예외 모두 자바의 최상위 클래스인 Object를 상속받는다<br>
+Throwable 클래스의 역할은 오류나 예외에 대한 메시지를 담는 것이다 <br>
+대표적으로getMessage() 와printStackTrace() 메소드가 바로 이 클래스에 속해 있다 <br>
 Throwable을 상속받은 Error와 Exception 클래스에서도 두 메소드를 사용할수 있게 된다
 
 </aside>
@@ -72,15 +67,7 @@ Checked / Unchecked Exception으로 재분류 한 이유는 코드적 관점에�
 | 발생 원인 | 사용자의 실수와 같은 외적인 요인에 의해 발생 | 프로그래머의 실수로 발생 |
 | 처리 여부 | 반드시 예외를 처리해야 함 | 명시적인 처리를 하지 않아도 됨 |
 | 확인 시점 | 컴파일 단계 | 런타임 단계 |
-| 예외 종류 | RuntimeException을 제외한 
-Exception 클래스와 그를 상속받는 하위 예외
-
-- IOException
-- SQLException | RuntimeException 과 그 하위 예외
-
-- NullPointerException
-- IllegalArgumentException
-- IndexOutOfBoundException |
+| 예외 종류 | RuntimeException을 제외한 Exception 클래스와 그를 상속받는 하위 예외 | RuntimeException 과 그 하위 예외 |
 
 ### 커스텀 예외 만들기
 
