@@ -106,6 +106,7 @@
 
 - Web
   - [Web Server & WAS](https://github.com/juhwan-Ki/TIL/blob/main/Web/Web%20Server%20%26%20WAS.md)
+  - [WebSocket](https://github.com/juhwan-Ki/TIL/blob/main/Web/WebSocket.md)
 
 - ETC
   - [데이터 검증](https://github.com/juhwan-Ki/TIL/blob/main/ETC/%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B2%80%EC%A6%9D.md)
