@@ -195,3 +195,25 @@ class ClassName<E> {
 }
 
 ```
+### 제네릭 타입 범위 한정
+- 제네릭은 모든 참조 타입으로 지정이 가능하다 만약 특정 범위를 제한해서 사용하려면 키워드를 사용하여 제네릭의 타입 범위를 
+제한 할 수 있다 
+
+1. extends T 
+    - 상한 경계라고 하며 T에 들어오는 타입을 포함한 자식 타입만 가능하다 
+    - 즉 extends 뒤에 오는 타입이 최상위 타입으로 한게가 지정되는 것을 의미한다
+    - 특정 타입 및 그 하위 타입만 제한 하고 싶은 경우 사용하면 된다
+    
+    ``` java
+    public class ClassName <K extends Number> { ... } 
+    // Number나 Number의 하위 타입만 들어올 수 있음 
+    // ex) Integer, Long, Byte, Double, Float, Short 
+
+    public class Main {
+       public static void main(String[] args) {
+ 
+          ClassName<Double> a1 = new ClassName<Double>();   // OK!
+          ClassName<String> a2 = new ClassName<String>();   // error!
+       }
+    }
+    ```
