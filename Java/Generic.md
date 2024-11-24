@@ -195,17 +195,18 @@ class ClassName<E> {
 }
 
 ```
+
 ### 제네릭 타입 범위 한정
 - 제네릭은 모든 참조 타입으로 지정이 가능하다 만약 특정 범위를 제한해서 사용하려면 키워드를 사용하여 제네릭의 타입 범위를 
 제한 할 수 있다 
 
-1. extends T 
+1. extends  
     - 상한 경계라고 하며 T에 들어오는 타입을 포함한 자식 타입만 가능하다 
     - 즉 extends 뒤에 오는 타입이 최상위 타입으로 한게가 지정되는 것을 의미한다
     - 특정 타입 및 그 하위 타입만 제한 하고 싶은 경우 사용하면 된다
     
     ``` java
-    public class ClassName <K extends Number> { ... } 
+    public class ClassName <T extends Number> { ... } 
     // Number나 Number의 하위 타입만 들어올 수 있음 
     // ex) Integer, Long, Byte, Double, Float, Short 
 
@@ -217,3 +218,50 @@ class ClassName<E> {
        }
     }
     ```
+
+2. super
+    - 하한 경계라고 하며 T에 들어오는 타입을 포함한 부모 타입만 가능하다
+    - 즉 super 뒤에 오는 타입이 최하위 타입으로 한계가 정해지는 것이다
+    - 업케스팅이 될 필요가 있을 때 사용한다
+
+    
+    ``` java
+    public class ClassName <T extends Apple> { ... } 
+    // Apple에 상위 클래스가 들어올 수 있음
+    // ex) Frtuit
+
+    public class Main {
+       public static void main(String[] args) {
+ 
+          ClassName<Apple> a1 = new ClassName<Frtuit>();   // OK!
+          ClassName<Apple> a2 = new ClassName<Banana>();   // error!
+       }
+    }
+    ```
+
+3. ?(와일드 카드)
+    - 와일드 카드 <?> 은 <? extends Object> 와 마찬가지다 
+    - Object는 자바에서의 모든 API 및 사용자 클래스의 최상위 타입이다 
+    - 즉 모든 타입을 받을 수 있다는 의미이다
+    - 하지만 와일드 카드는 와일드카드는 타입 자체를 표현하는 약속된 자리표현자 일 뿐이며, 타입 매개변수처럼 사용할 수는 없다
+    - 그렇기 때문에 읽기 작업만 가능하다
+    ``` java
+    public static void printList(List<?> list) {
+        for (Object obj : list) {
+            System.out.println(obj); // 어떤 타입이든 출력 가능
+        }
+        list.add(10); // 컴파일 에러: 타입 안정성 깨질 위험
+    }
+    // List<?>는 타입을 모르지만 어떤 리스트든 허용을 의미한다
+    // 이 리스트 안의 요소가 어떤 타입인지 컴파일러는 알 수 없으므로 읽기만 허용된다
+    ```
+
+### 와일드카드 vs 타입 변수
+
+| **특징**              | **와일드카드 (?)**                                | **타입 변수 (K, T 등)**                          |
+|-----------------------|--------------------------------------------------|------------------------------------------------|
+| **타입 고정 여부**     | 고정되지 않음                                    | 명시적으로 고정 가능                           |
+| **역할**              | 특정 타입은 모르지만, 상한/하한으로 제약          | 특정 타입을 표현하고 추적 가능                 |
+| **값 추가 가능 여부**  | 불가능 (타입 안정성 깨질 위험)                   | 가능 (타입이 고정되므로 안전)                  |
+| **읽기 작업 가능 여부** | 가능 (제약 내에서 안전하게 읽기 가능)            | 가능 (명확한 타입으로 읽기 가능)               |
+| **사용 범위**          | 유연성을 제공하지만 제한적                        | 타입 안전성을 보장하며 더 강력함               |
