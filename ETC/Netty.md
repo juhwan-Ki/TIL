@@ -38,21 +38,21 @@ BootStrap은 ServerBootstrap과 BootStrap으로 나뉘게 된다
 다중 클라이언트를 처리할 수 있도록 서버 소켓 채널을 생성하고 이벤트 루프 및 파이프라인의 설정에 대한 설정을 진행
 
 #### ServerBootstrap 주요 메소드
-1. `group(EventLoopGroup bossGroup, EventLoopGroup workerGroup)` : 서버 `Channel`의 이벤트 처리를 담당할 스레드 풀 설정
-2. `channel(Class<? extends ServerChannel> channelClass)` : 서버 `Channel`의 타입을 지정(일반적으로 `NioServerSocketChannel`을 사용하여 Non-blocking 소켓을 설정)
-3. `childHandler(ChannelInitializer)` : 클라이언트와 연결된 `Channel`의 초기 설정(Handler 추가 등)을 담당, `ChannelInitializer` 내부에서 `Pipeline`에 Handler 추가
-4. `option(ChannelOption<T> option, T value)` : 서버 `Channel`에 설정할 옵션을 지정
-5. `childOption(ChannelOption<T> option, T value)` : 클라이언트 `Channel`에 적용할 옵션을 지정
-6. `bind(int port)` : 지정된 포트로 서버를 바인딩, 반환값은 `ChannelFuture`로 비동기 작업 완료 여부를 확인할 수 있음
+1. **`group(EventLoopGroup bossGroup, EventLoopGroup workerGroup)`** : 서버 `Channel`의 이벤트 처리를 담당할 스레드 풀 설정
+2. **`channel(Class<? extends ServerChannel> channelClass)`** : 서버 `Channel`의 타입을 지정(일반적으로 `NioServerSocketChannel`을 사용하여 Non-blocking 소켓을 설정)
+3. **`childHandler(ChannelInitializer)`** : 클라이언트와 연결된 `Channel`의 초기 설정(Handler 추가 등)을 담당, `ChannelInitializer` 내부에서 `Pipeline`에 Handler 추가
+4. **`option(ChannelOption<T> option, T value)`** : 서버 `Channel`에 설정할 옵션을 지정
+5. **`childOption(ChannelOption<T> option, T value)`** : 클라이언트 `Channel`에 적용할 옵션을 지정
+6. **`bind(int port)`** : 지정된 포트로 서버를 바인딩, 반환값은 `ChannelFuture`로 비동기 작업 완료 여부를 확인할 수 있음
 
 #### BootStrap
 클라이언트 애플리케이션을 설정하고 실행하는 데 사용하며 서버와 달리 단일 소켓(Channel)만 생성, 서버에 연결하는 작업 수행
 
 #### BootStrap 주요 메소드
-1. `group(EventLoopGroup group)` : 클라이언트 `Channel`의 이벤트 처리를 담당할 스레드 풀 설정
-2. `channel(Class<? extends ServerChannel> channelClass)` : 클라이언트 `Channel`의 타입을 지정(일반적으로 `NioSocketChannel` 사용하여 Non-blocking 소켓을 설정)
-3. `handler(ChannelInitializer)` : 클라이언트 `Channel`에 적용할 초기 설정(Handler 추가)을 담당, `ChannelInitializer` 내부에서 `Pipeline`에 Handler 추가
-4. `connect(String host, int port)` : 지정된 서버의 호스트와 포트로 연결 시도, 반환값은 `ChannelFuture`로 비동기 연결 상태를 확인할 수 있음
+1. **`group(EventLoopGroup group)`** : 클라이언트 `Channel`의 이벤트 처리를 담당할 스레드 풀 설정
+2. **`channel(Class<? extends ServerChannel> channelClass)`** : 클라이언트 `Channel`의 타입을 지정(일반적으로 `NioSocketChannel` 사용하여 Non-blocking 소켓을 설정)
+3. **`handler(ChannelInitializer)`** : 클라이언트 `Channel`에 적용할 초기 설정(Handler 추가)을 담당, `ChannelInitializer` 내부에서 `Pipeline`에 Handler 추가
+4. **`connect(String host, int port)`** : 지정된 서버의 호스트와 포트로 연결 시도, 반환값은 `ChannelFuture`로 비동기 연결 상태를 확인할 수 있음
 
 ### 2. EventLoop
 EventLoop는 단일 스레드로 동작하며 하나의 Thread와 연결되어 무한 루프를 돌며 Selector에 등록된 Channel에서 이벤트가 발생할 때까지 대기하다가 이벤트가 발생하면 해당 이벤트를 처리할 수 있는 Handler에게 전달하는 역할을 한다
@@ -81,12 +81,12 @@ Channel은 TCP 커넥션에 대한 I/O 작업을 처리하는 객체로 클라�
 Channel은 클라이언트 요청이 들어오거나, 클라이언트에서 서버로 연결 요청을 보낼 때 생성 되며 데이터 처리를 위한 ChannelPipeline이 연결되어 있다
 
 ChannelPipeline에는 여러 Handler를 포함할 수 있고 설정된 Handler들을 차례로 호출하여 데이터의 가공 및 처리 로직을 수행한다
-#### 주요 메소드
-1. `write(Object msg)` : 원격에 데이터를 write함 데이터는 메시지는 버퍼에 작성되며, 실제 전송은 flush()를 통해 이루어짐
-2. `flush(Object msg)` : 이전에 write된 데이터를 모두 전송 계층 소켓에 flush
-3. `writeAndFlush(Object msg)` : 데이터를 작성하고 즉시 전송
-4. `pipeline()` : Channel에 등록된 ChannelPipeline을 반환
-5. `remoteAddress()` : 원격의 SocketAddress를 반환
+#### Channel 주요 메소드
+1. **`write(Object msg)`** : 원격에 데이터를 write함. 데이터는 메시지는 버퍼에 작성되며, 실제 전송은 `flush()`를 통해 이루어짐
+2. **`flush(Object msg)`** : 이전에 write된 데이터를 모두 전송 계층 소켓에 flush
+3. **`writeAndFlush(Object msg)`** : 데이터를 작성하고 즉시 전송
+4. **`pipeline()`** : `Channel`에 등록된 `ChannelPipeline`을 반환
+5. **`remoteAddress()`** : 원격의 `SocketAddress`를 반환
 
 
 ### 4. ChannelFuture
@@ -94,7 +94,7 @@ Channel에서 처리하는 모든 I/O 작업은 비동기로 진행되기 때문
 
 이때 모든 I/O 작업 요청의 결과로 void를 return하는 것이 아닌, ChannelFuture를 반환하게 되며 ChannelFuture를 통해서 I/O 처리가 완료 되었는지 확인 하고 결과를 검색 할 수 있다
 
-#### 주요 메소드:
+#### ChannelFuture 주요 메소드:
 1. **`isDone()`**:작업이 완료되었는지 여부를 반환(작업이 성공하거나 실패하면 true를 반환)
 2. **`isSuccess()`**: 작업이 성공적으로 완료되었는지 여부를 반환
 3. **`cause()`**: 작업 실패 시 예외를 반환 성공적인 작업이라면 null을 반환
@@ -111,13 +111,13 @@ ChannelHandler는 데이터를 받기 위한 Inbound(Input Stream), 데이터를
 Inbound I/O Event를 handle하는 Handler로 원격 장치에서 요청한 CONNECT와 READ에 대한 이벤트에 대한 콜백을 수행하는 ChannelHandler
 
 #### ChannelInboundHandler 주요 메소드
-1. `channelRegistered(ChannelHandlerContext ctx)` : `Channel`이 `EventLoop`에 등록되어 I/O 작업을 수행할 준비가 되었을 때 호출
-2. `channelUnregistered(ChannelHandlerContext ctx)` : `Channel`이 `EventLoop`로부터 해제되어 어떠한 I/O 작업도 수행할 수 없을 때 호출
-3. `channelActive(ChannelHandlerContext ctx)` : `Channel`이 `EventLoop`에 등록되고 난 후 active 상태 일때 호출(connected, bind된 상태)
-4. `channelInactive(ChannelHandlerContext ctx)` : `Channel`이 deactive된 상태를 의미하며, 원격 장치와 connection이 끊겼을 때 호출
-5. `channelRead(ChannelHandlerContext ctx, Object msg)` : `Channel`로부터 데이터를 read할 때 호출
-6. `channelReadComplete(ChannelHandlerContext ctx)` : 데이터 read 작업이 완료되었을 때 호출
-7. `exceptionCaught(ChannelHandlerContext ctx, Throwable cause)` : 처리 중 예외가 발생했을 때 호출
+1. **`channelRegistered(ChannelHandlerContext ctx)`** : `Channel`이 `EventLoop`에 등록되어 I/O 작업을 수행할 준비가 되었을 때 호출
+2. **`channelUnregistered(ChannelHandlerContext ctx)`** : `Channel`이 `EventLoop`로부터 해제되어 어떠한 I/O 작업도 수행할 수 없을 때 호출
+3. **`channelActive(ChannelHandlerContext ctx)`** : `Channel`이 `EventLoop`에 등록되고 난 후 active 상태 일때 호출(connected, bind된 상태)
+4. **`channelInactive(ChannelHandlerContext ctx)`** : `Channel`이 deactive된 상태를 의미하며, 원격 장치와 connection이 끊겼을 때 호출
+5. **`channelRead(ChannelHandlerContext ctx, Object msg)`** : `Channel`로부터 데이터를 read할 때 호출
+6. **`channelReadComplete(ChannelHandlerContext ctx)`** : 데이터 read 작업이 완료되었을 때 호출
+7. **`exceptionCaught(ChannelHandlerContext ctx, Throwable cause)`** : 처리 중 예외가 발생했을 때 호출
 
 #### ChannelOutboundHandler
 Outbound I/O Event를 handle하는 Handler로 원격 장치에 보낼 연결 요청 (connect), write 이벤트에 대한 콜백을 수행하는 ChannelHandler
@@ -125,14 +125,14 @@ Outbound I/O Event를 handle하는 Handler로 원격 장치에 보낼 연결 요
 출력 이벤트는 Pipeline을 통해 역순으로 처리
 
 #### ChannelOutboundHandler 주요 메소드
-1. `bind(ChannelHandlerContext ctx, SocketAddress addr, ChannelPromise promise)` : `Channel`이 특정 로컬 주소에 바인딩될 때 호출
-2. `connect(ChannelHandlerContext ctx, SocketAddress addr, SocketAddress addr2, ChannelPromise promise)` : 원격 주소에 연결될 때 호출
-3. `disconnect(ChannelHandlerContext ctx, ChannelPromise promise)` : 연결을 끊을 때 호출
-4. `close(ChannelHandlerContext ctx, ChannelPromise promise)` : `Channel`이 close될 때 호출
-5. `deregister(ChannelHandlerContext ctx, ChannelPromise promise)` : `EventLoop`로부터 `Channel`을 해제할 때 호출
-6. `read(ChannelHandlerContext ctx)` : `Channel`로부터 더 많은 데이터를 read 요청할 때 호출
-7. `write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise)` : 데이터가 `Channel`을 통해 전송될 때 호출
-8. `flush(ChannelHandlerContext ctx)` : `Channel`에 남아있는 데이터를 flush할 때 호출
+1. **`bind(ChannelHandlerContext ctx, SocketAddress addr, ChannelPromise promise)`** : `Channel`이 특정 로컬 주소에 바인딩될 때 호출
+2. **`connect(ChannelHandlerContext ctx, SocketAddress addr, SocketAddress addr2, ChannelPromise promise)`** : 원격 주소에 연결될 때 호출
+3. **`disconnect(ChannelHandlerContext ctx, ChannelPromise promise)`** : 연결을 끊을 때 호출
+4. **`close(ChannelHandlerContext ctx, ChannelPromise promise)`** : `Channel`이 close될 때 호출
+5. **`deregister(ChannelHandlerContext ctx, ChannelPromise promise)`** : `EventLoop`로부터 `Channel`을 해제할 때 호출
+6. **`read(ChannelHandlerContext ctx)`** : `Channel`로부터 더 많은 데이터를 read 요청할 때 호출
+7. **`write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise)`** : 데이터가 `Channel`을 통해 전송될 때 호출
+8. **`flush(ChannelHandlerContext ctx)`** : `Channel`에 남아있는 데이터를 flush할 때 호출
     
 ChannelInboundHandler와 ChannelOutboundHandler 모두 순수 인터페이스라 모든 메서드를 구현해줘야하는 불편함이 존재하는데, Netty는 편의를 위해 ChannelHandlerAdaptor 추상 클래스를 구현한 어탭터 클래스를 제공한다
    - ChannelInboundHandlerAdaptor: Inbound I/O Event 어댑터 구현체
