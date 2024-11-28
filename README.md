@@ -110,6 +110,7 @@
   - [WebSocket](https://github.com/juhwan-Ki/TIL/blob/main/Web/WebSocket.md)
 
 - ETC
+  - [Netty](https://github.com/juhwan-Ki/TIL/blob/main/ETC/Netty.md)
   - [데이터 검증](https://github.com/juhwan-Ki/TIL/blob/main/ETC/%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B2%80%EC%A6%9D.md)
   - [게시글 저장 구현 테스트](https://github.com/juhwan-Ki/TIL/blob/main/ETC/%EA%B2%8C%EC%8B%9C%EA%B8%80%20%EC%A0%80%EC%9E%A5%20%EA%B5%AC%ED%98%84%20%ED%85%8C%EC%8A%A4%ED%8A%B8.md)
   - Modern Java in Action
