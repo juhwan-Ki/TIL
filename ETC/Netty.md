@@ -144,3 +144,14 @@ ChannelHandlerContext는 ChannelPipeline 내에서 각 ChannelHandler가 다른 
 
 ChannelHandlerContext를 통해 다음 ChannelHandler에게 이벤트를 넘기거나, 동적으로 ChannelPipeline을 변경할 수 있다
 
+#### ChannelHandlerContext 주요 메소드
+1. **`channel()`** : 현재 Context와 연결된 채널 반환
+2. **`pipeline()`** : 현재 Context의 ChannelPipeline을 반환
+3. **`read()`** : `Channel`에서 데이터를 읽기 시작하도록 요청
+4. **`write(Object msg)`** : 데이터를 다음 Handler로 전달
+5. **`writeAndFlush(Object msg)`** : 데이터를 다음 Handler로 전달하고 즉시 flush
+6. **`fireChannelRead(Object msg)`** : 현재 Handler 이후의 Handler로 데이터를 전파
+7. **`fireExceptionCaught(Throwable)`** : 예외를 다음 Handler로 전달
+8. **`close()`** : 현재 Channel 닫기
+9. **`attr(AttributeKey<T>)`** : 현재 Channel의 속성(Attribute)을 읽거나 설정
+
