@@ -75,7 +75,7 @@
     - [RDB & NoSQL](https://github.com/juhwan-Ki/TIL/blob/main/CS/DB/RDB%20%26%20NoSQL.md)
     - [RDBMS 종류와 특징 및 장단점](https://github.com/juhwan-Ki/TIL/blob/main/CS/DB/RDBMS%20%EC%A2%85%EB%A5%98%EC%99%80%20%ED%8A%B9%EC%A7%95%20%EB%B0%8F%20%EC%9E%A5%EB%8B%A8%EC%A0%90.md)
     - [Transaction](https://github.com/juhwan-Ki/TIL/blob/main/CS/DB/Transaction.md)
-    - [Transaction Isolation Level)](https://github.com/juhwan-Ki/TIL/blob/main/CS/DB/Transaction%20Isolation%20Level.md)
+    - [Transaction Isolation Level](https://github.com/juhwan-Ki/TIL/blob/main/CS/DB/Transaction%20Isolation%20Level.md)
     - [Lock](https://github.com/juhwan-Ki/TIL/blob/main/CS/DB/Lock.md)
     - [Deadlock](https://github.com/juhwan-Ki/TIL/blob/main/CS/DB/Deadlock.md)
     - [Index](https://github.com/juhwan-Ki/TIL/blob/main/CS/DB/Index.md)
