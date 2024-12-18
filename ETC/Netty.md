@@ -34,7 +34,7 @@ BootStrap은 네트워크 애플리케이션의 초기 설정 및 실행을 도�
 
 BootStrap은 ServerBootstrap과 BootStrap으로 나뉘게 된다
 #### ServerBootstrap
-서버 애플리케인션을 설정하고 실행하는데 사용 <br>
+서버 애플리케이션을 설정하고 실행하는데 사용 <br>
 다중 클라이언트를 처리할 수 있도록 서버 소켓 채널을 생성하고 이벤트 루프 및 파이프라인의 설정에 대한 설정을 진행
 
 #### ServerBootstrap 주요 메소드
@@ -74,6 +74,24 @@ read/write에 대한 이벤트를 모두 처리하기때문에 사용자와의 �
 보통 WorkerGroup은 BossGroup보다 EventLoop를 더 많이 생성하게 되는데 그 이유는 새로운 커넥션 연결보다 WorkerGroup에서 처리하는 read/write 이벤트가 훨씬 많이 발생하기 때문이다
 
 Netty를 클라이언트로 사용할 경우 새로운 연결을 한번만 하면 되기 때문에 보통 하나의 EventLoopGroup으로  I/O(connect, read, write) 이벤트를 모두 처리한다
+
+#### EventLoop 특징
+```java
+EventLoop는 SocketChannel과 매핑되어 연결이 종료될 때까지 요청에 대한 처리를 수행한다
+
+이때 SocketChannel마다 새로운 EventLoop가 할당되는 것이 아닌
+1개의 EventLoop에 여러 개의 SocketChannel을 연결하여 처리 한다
+
+그 이유는 EventLoop는 비동기 방식으로 동작하여 
+적은 수의 스레드로 많은 연결을 처리할 수 있기 때문이다
+
+// ex
+100개의 Channel이 연결되어도 100개의 EventLoop를 사용하는 것이 아닌
+초기 설정된 EventLoop의 갯수에 따라 100개의 Channel을 분배하여 연결하게 된다
+
+또한 EventLoop는 단일 스레드로 동작 하기 때문에 Channel의 비즈니스 로직에
+blokcing한 로직을 넣으면 애플리케이션의 성능이 악화될 수 있어 주의가 필요하다
+```
 
 ### 3. Channel
 Channel은 TCP 커넥션에 대한 I/O 작업을 처리하는 객체로 클라이언트와 서버 간 데이터를 주고받기 위한 통로의 역할을 수행한다
