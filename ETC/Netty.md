@@ -120,7 +120,27 @@ Channel에서 처리하는 모든 I/O 작업은 비동기로 진행되기 때문
 5. **`addListener(ChannelFutureListener listener)`**: 작업이 완료되었을 때 실행할 리스너를 추가
 6. **`cancel()`**:  비동기 작업 취소
 
-### 5. ChannelHandler
+### 5. ChannelPipeline
+ChannelPipeline은 여러 ChannelHandler의 조합을 의미하며, ChannelHandler는 Channel에 대한 실질적인 read/write을 호출하고, 비즈니스를 수행하는 컴포넌트이다
+
+Channel이 TCP 연결후 생성되고나면 각 Channel엔 여러 Handler의 조합을 나타내는 고유한 ChannelPipeline이 생성되어 매핑되게 된다
+
+ChannelPipeline은 Inbound 이벤트를 처리하는 InboundHandlerChain과 Outbound 이벤트를 처리하는 OutboundHandlerChain으로 구분되며 요청에 따라 독립적으로 수행된다
+
+즉 Inbound Event(read)는 InboundHandlerChain에서 처리하고 Outbound Event(write)는 OutboundHandlerChain에서 처리하게 된다
+
+#### ChannelPipeline 주요 메소드
+1. **`addLast(String name, ChannelHandler handler) or addLast(ChannelHandler... handlers)`** : 파이프라인의 맨 뒤에 핸들러를 추가
+2. **`addFirst(String name, ChannelHandler handler) or addFirst(ChannelHandler... handlers)`** : 파이프라인 맨 앞에 핸들러 추가
+3. **`addBefore(String baseName, String name, ChannelHandler handler)`** : 특정 핸들러 앞에 새 핸들러를 추가
+4. **`addAfter(String baseName, String name, ChannelHandler handler)`** : 특정 핸들러 뒤에 새 핸들러를 추가
+5. **`remove(ChannelHandler handler) or remove(String name) or remove(Class<? extends ChannelHandler> handlerType)`** : 특정 핸들러 제거
+6. **`removeFirst()`** : 파이프라인의 첫 번째 핸들러 제거
+7. **`removeLast()`** : 파이프라인의 마지막 핸들러 제거
+8. **`get(String name) or get(Class<? extends ChannelHandler> handlerType)`** : 파이프라인에서 특정 핸들러 조회
+
+
+### 6. ChannelHandler
 ChannelHandler는 데이터 송수신 또는 네트워크 이벤트를 처리하기 위해 사용하는 인터페이스로 ChannelPipeline에 등록되어, 매핑된 Channel이 등록된 EventLoop에서 발생한 I/O Event와 I/O Operation을 처리하거나 Pipeline 내에서 다음 Handler를 실행하는 역할을 한다
 
 ChannelHandler는 데이터를 받기 위한 Inbound(Input Stream), 데이터를 내보내기위한 Outbound(Output Stream)에 따라 구분되어 사용된다
@@ -157,7 +177,7 @@ ChannelInboundHandler와 ChannelOutboundHandler 모두 순수 인터페이스라
    - ChannelOutboundHandlerAdaptor: Outbount I/O Operation 어댑터 구현체
    - ChannelDuplexHandler: Inbound, Outbound Event 처리용 어댑터 구현체(Inbound, Outbound 모두 처리 가능)
 
-### 6. ChannelHandlerContext
+### 7. ChannelHandlerContext
 ChannelHandlerContext는 ChannelPipeline 내에서 각 ChannelHandler가 다른 ChannelHandler와 상호작용할 수 있도록 돕는 객체이다
 
 ChannelHandlerContext를 통해 다음 ChannelHandler에게 이벤트를 넘기거나, 동적으로 ChannelPipeline을 변경할 수 있다
