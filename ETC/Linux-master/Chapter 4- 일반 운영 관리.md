@@ -668,3 +668,186 @@
             | `-` | 범위 지정 (예: `1-5` → 1~5일 실행) |
             | `/` | 주기 지정 (예: `*/5` → 5분마다 실행) |
     - 접근제어 파일 : /etc/cron.allow, /etc/cron.deny (cron.allow 파일 우선)
+## 4. 소프트웨어 설치 및 관리
+
+### 4-1. 패키지를 통한 소프트웨어 설치
+- rpm 명령어 
+    - RPM : Redhat Package Manager의 약자로 레드햇에서 만든 패키지 관리 도구
+    - 확장자가 rpm인 패키지를 관리
+    - 주요 옵션
+        1. 설치/업그레이드 관련 옵션
+            - `[-i PACKAGE.rpm]` : 패키지 설치
+            - `[-U]` : 패키지 업그레이드
+            - `[-h]` : 해시 기호(#)를 출력하여 진행도를 보기 쉽게 출력
+            - `[-v]` : 자세하게 출력
+            - `[--replacepkgs]` : 패키지가 설치가 되어있어도 강제로 설치
+            - `[--replacefiles]` : 패키지의 파일이 설치가 되어있어도 강제로 설치
+            - `[--nodeps]` : 의존성을 무시
+            - `[--oldpackage]` : 구버전으로 다운그레이드
+            - `[--rebuilddb]` : RPM 데이터베이스 업데이트
+            - `[--force]` : [--replacepkgs], [replacefiles], [oldpackage] 옵션을 같이 사용한 것과 동일
+        2. 질의 관련 옵션 → `[-q]` 와 같이 사용
+            - `[-a]` : 전체 패키지 목록 질의
+            - `[-f FILE]` : 지정한 파일이 속한 패키지 질의
+            - `[-i]` : 상세 정보 질의
+            - `[-p PACKAGE]` : 지정한 패키지의 정보 질의
+            - `[-l PACKAGE]` : 지정한 패키지가 설치한 파일 목록 질의
+            - `[-R PACKAGE]` : 지정한 패키지의 의존성 질의
+        3. 삭제 옵션
+            - `[-e PACKAGE]` : 지정한 패키지 삭제
+        4. 검증 옵션
+            - `[-V PACKAGE]` : 지정한 패키지 무결성 검사
+    - 사용 예제
+        - rpm -ivh gnome-sudoku-3.29.2-3.fc29.aarch64.rpm → gnome-sudoku 설치
+        - rpm -Uvh gnome-sudoku-3.29.2-3.fc29.aarch64.rpm → gnome-sudoku 업그레이드
+        - rpm -qa | grep gnome → 전체 패키지 목록 중에 gnome 문자열이 들어간 패키지 출력
+        - rpm -qf /usr/bin/gnome-sudoku → gnome-sudoku 파일이 어느 패키지에 속해 있는지 확인
+        - rpm -qi gnome-sudoku → gnome-sudoku 패키지의 상세 정보 출력
+        - rpm -e gnome-sudoku → gnome-sudoku 패키지 삭제
+- yum 명령어 / dnf 명령어 
+    - RPM 기반의 패키지 관리 도구 → 레드햇 계열 도구
+    - rpm 명령은 패키지 의존성을 확인하여 설치를 일일이 해주어야 하지만 yum 명령은 알아서 확인하여 설치까지 할 수 있도록 도와줌
+    - DNF는 페도라 22 버전 이후부터 yum을 대체하는 패키지 관리자
+    - 주요 옵션
+        - `[list]` : 설치된 전체 패키지 목록 출력
+        - `[list all]` : 이미 설치되었거나 설치 가능한 모든 패키지 목록 출력
+        - `[list available]` : 설치 가능한 모든 패키지 목록 출력
+        - `[list updates]` : 업데이트 가능한 패키지 목록 출력 ([list upgrades] 옵션과 같은 기능)
+        - `[check-update]` : 업데이트 가능한 패키지 목록 출력 ([check-upgrade] 옵션과 같은 기능)
+        - `[list installed]` : 설치된 패키지 목록 출력
+        - `[install]` : 지정한 패키지 설치
+        - `[update]` : 지정한 패키지 업데이트 ([upgrade] 옵션과 같은 기능)
+        - `[info]` : 지정한 패키지의 정보 출력
+        - `[search]` : 지정한 문자열이 들어간 패키지 검색
+        - `[remove]` : 지정한 패키지 삭제
+        - `[-y]` : 설치 과정의 모든 질문에 yes로 대답
+        - `[-v]` : 자세하게 출력
+- yumdownloader 명령어 
+    - yum 패키지를 설치하지 않고 rpm을 다운로드하는 명령어
+    - yum-utils 패키지에 포함
+- yum 저장소 디렉터리
+    - /etc/yum.repos.d
+- dpkg 명령어 
+    - dpkg는 데비안의 패키지 관리 도구. 확장자가 deb인 패키지를 관리
+    - 주요 옵션
+    - `[-i PACKAGE.deb]` : 지정한 패키지 설치 (.deb 확장자를 가지는 패키지 전체 파일명으로 설치해야 함)
+    - `[-l]` : 설치된 전체 패키지 목록 출력
+    - `[-L PACKAGE]` : 지정한 패키지가 설치한 파일 출력
+    - `[-I PACKAGE.deb]` : (대문자 i) 지정한 패키지의 정보 출력
+    - `[-P PACKAGE]` : 지정한 패키지 삭제
+    - `[-S FILE]` : 지정한 파일이 속한 패키지 질의
+- apt 명령어 
+    - APT(Advanced Packaging Tool)은 데비안 계열의 패키지 관리도구
+    - 주요 옵션
+        1. apt-get 명령어 옵션
+            - `[install]` : 지정한 패키지 설치
+            - `[update]` : 패키지 정보 업데이트
+            - `[upgrade]` : 설치되어 있는 모든 패키지를 업데이트
+            - `[--reinstall]` : [install] 옵션과 함께 사용하여 지정한 패키지 재설치
+                - ex) apt-get --reinstall install gnome-sudoku
+            - `[remove]` : 지정한 패키지 삭제 (설정파일은 삭제하지 않음)
+            - `[--purge]` : [remove] 옵션과 함께 사용하면 설정파일까지 모두 삭제
+                - ex) apt-get --purge remove gnome-sudoku
+        2. apt-cache 명령어 옵션
+            - `[search]` : 패키지 검색
+            - `[show]` : 지정한 패키지의 정보 출력
+
+### 4-2. 소스 코드 컴파일
+
+- gcc 명령어 `2014(1)`
+    - GNU의 C/C++ 컴파일러
+    - 형식
+        - `gcc [옵션] 소스파일 -o 실행파일`
+        - `gcc [옵션] -o 실행파일 소스파일`
+            - 실행파일이 `[-o]` 뒤에 오면 됨
+    - 주요 옵션
+        - `[-g]` : 디버깅 가능한 실행파일 생성
+        - `[-o]` : 출력 파일 지정
+        - `[-c]` : 오브젝트 파일 생성 (컴파일만 진행)
+        - `[-v]` : 컴파일 과정을 자세하게 출력
+        - ex) gcc -o output.out source.c → source.c 파일을 컴파일하여 output.out 실행파일을 생성
+        - gcc -c source.c → source.c 파일의 오브젝트 파일(source.o) 생성
+        - gcc source.c → source.c 파일을 컴파일하여 실행파일을 생성(a.out)
+
+### 소스파일로 된 패키지 설치하기
+
+- configure 명령어 
+    - 제일 첫 번째 단계로 소프트웨어를 빌드하기 전 시스템 환경을 확인하고 적절한 설정을 수행하는 스크립트
+    - Makefile을 생성하는 단계
+    - 형식
+        - `./configure [옵션]`
+    - 주요 옵션
+        - `[--prefix=경로]` : 설치 경로 지정 (기본: `/usr/local`)
+- make 명령어
+    - Makefile 파일에 설정된 정보를 읽어서 여러 개의 소스파일을 컴파일하고 링크하여 실행파일을 생성하는 명령어
+    - 소스 파일을 컴파일하기 위함
+- cmake 명령어 
+    - 멀티 플랫폼으로 사용할 수 있는 make의 대용품
+    - make와 달리 유닉스 계열 뿐만 아니라 윈도우 계열의 프로그래밍 도구(Visual Studio 포함)도 지원
+- make install 명령어
+    - 설치를 위한 명령어
+    - make 명령어로 생성된 설치파일을 실행하기 위한 과정
+- 일반적인 과정
+    - configure → make → make install 
+- cmake 과정
+    - cmake → make → make install 
+
+### 아카이브/압축 관련 명령어
+
+- tar 명령어 
+    - 파일/디렉터리를 하나로 묶어 아카이브 파일을 생성
+    - 형식
+        - `tar [옵션] [아카이브 파일] [파일/디렉토리]`
+    - 주요 옵선
+    - `[c]` : 아카이브 파일 생성
+    - `[x]` : 아카이브 파일에서 원본파일을 추출
+    - `[t]` : 아카이브 파일의 내용 출력
+    - `[r]` : 기존 아카이브 파일에 새로운 파일/디렉터리 추가
+    - `[u]` : 아카이브 파일의 내용에 변동사항을 업데이트
+    - `[v]` : 처리중인 파일의 정보를 출력
+    - `[f]` : 아카이브 파일 지정
+    - `[z]` : gzip으로 압축하거나 해제
+    - `[j]` : bzip2로 압축하거나 해제
+    - `[J]` : .xz로 압축하거나 해제
+    - ex) tar cvf test.tar a.txt b.txt → a.txt 파일과 b.txt 파일을 test.tar 아카이브 파일로 묶음
+    - tar tvf test.tar → test.tar 파일의 내용 출력
+    - tar xvf test.tar → test.tar 파일의 원본 파일 추출
+- gzip 명령어
+    - `.gz` 확장자 형태로 압축
+    - 원본 파일은 삭제되고 압축 파일만 남음
+    - 압축을 해제할 때는 `gunzip` 명령어를 사용하여 압축 해제
+    - `zcat` 명령어로 압축 `.gz` 로 압축된 파일의 내용을 출력
+    - 형식
+        - `gzip [옵션] 파일명`
+    - 주요 옵션
+    - `[-d]` : 압축 해제(gunzip 명령어와 동일)
+    - `[-l]` : 압축 파일의 정보 출력
+    - `[-v]` : 압축 진행 과정을 출력
+    - `[-r]` : 디렉토리 내 모든 파일 압축
+    - `[-9]` : 압축률을 최대로 하여 압축
+        - 1~9까지 지정할 수 있으며 숫자가 클수록 압축률이 크지만 속도가 느림
+    - `[-k]` : 기존 파일을 유지하고 압축
+    - ex) gzip -v test.tar → test.tar 파일 압축
+- bzip2 명령어
+    - `bz2` 확장자 형태로 압축
+    - gzip 명령어보다 압축률이 높지만 속도가 약간 느림
+    - gzip 명령어와 옵션이 동일
+    - `bzcat` 명령어 `.bz2` 로 압축된 파일의 내용을 출력
+    - `bunzip2` 명령어로 압축 해제
+- xz 명령어
+    - `.xz` 확장자 형태로 압축
+    - 압축률이 가장 높은 명령어
+    - gzip, bzip2 명령어와 옵션이 동일
+    - `xzcat` 명령어로 `.xz` 로 압축된 파일의 내용을 출력
+    - `unxz` 명령어로 `.xz` 로 압축된 파일의 압축 해제
+- zip 명령어
+    - `.zip` 확장자 형태로 압축
+    - 윈도우와 호환되는 압축파일
+    - `unzip` 명령어로  `.zip` 으로 압축된 파일의 압축 해제
+    - 형식
+        - `zip [압축파일명.zip] [압축할 파일들]`
+- compress 명령어
+    - `.Z` 확장자 형태로 압축
+    - `uncompress` 명령어로 `.Z` 로 압축된 파일의 압축 해제
+- 압축 명령어들의 압축률 순서 
+    - `xz > bzip2 > gzip > compress`
